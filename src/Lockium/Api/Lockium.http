@@ -1,0 +1,64 @@
+@host = http://92.38.48.35:5000
+@deviceId = AY000001
+@channel = 1
+
+### Connected devices
+GET {{host}}/api/lock/devices
+
+###
+
+### Channel close
+POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/close
+
+###
+
+### Keep channel open (relay/light — not for pulse locks)
+POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/keep-open
+
+###
+
+### Open few channel locks (channels 1, 2, 3)
+POST {{host}}/api/lock/{{deviceId}}/channels/open-few
+Content-Type: application/json
+
+{
+  "channels": [1, 2, 3]
+}
+
+###
+
+### Open single channel lock (no order)
+POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/open
+Content-Type: application/json
+
+###
+
+### Open single channel lock (with order number)
+POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/open
+Content-Type: application/json
+
+{
+  "orderNumber": "ORDER001"
+}
+
+###
+
+### Read single channel lock status
+GET {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/status
+
+###
+
+### Read all channel lock status
+GET {{host}}/api/lock/{{deviceId}}/status/all
+
+###
+
+### Posting the door status actively (all devices)
+GET {{host}}/api/lock/door-status
+
+###
+
+### Posting the door status actively (filter by device)
+GET {{host}}/api/lock/door-status?deviceId={{deviceId}}
+
+###
