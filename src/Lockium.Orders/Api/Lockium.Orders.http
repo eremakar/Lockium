@@ -1,0 +1,65 @@
+﻿@mainHost = http://localhost:20088/api/v1/
+@host = http://localhost:20091/api/v1/
+### health
+GET {{host}}health
+
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"user",
+    "password":"pass"
+}
+
+### Get the list of Order, using advanced search
+POST {{host}}orders/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Order
+POST {{host}}orders
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "state": 1,
+    "clientId": 1,
+    "channelId": 1,
+}
+
+### Edit a Order
+PUT {{host}}orders
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "state": 1,
+    "clientId": 1,
+    "channelId": 1,
+}
+
+### Delete a Order
+DELETE {{host}}orders/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+

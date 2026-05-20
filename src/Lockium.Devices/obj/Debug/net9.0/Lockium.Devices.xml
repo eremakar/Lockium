@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Lockium.Devices</name>
+    </assembly>
+    <members>
+        <member name="M:Lockium.Devices.Controllers.Devices.ChannelsController.SearchAsync(Lockium.Models.Queries.Devices.Channels.ChannelQuery)">
+            <summary>
+            Search of Channel using given query
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">List of channels</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.ChannelsController.FindAsync(System.Int64)">
+            <summary>
+            Get the channel by id
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">Channel data</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.ChannelsController.AddAsync(Lockium.Models.Dtos.Devices.ChannelDto)">
+            <summary>
+            Add new channel
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">Unique registered id</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.ChannelsController.UpdateAsync(Lockium.Models.Dtos.Devices.ChannelDto)">
+            <summary>
+            Update channel
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">OK</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.ChannelsController.PatchAsync(System.Int64,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Lockium.Models.Dtos.Devices.ChannelDto})">
+            <summary>
+            Patch channel
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">OK</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.ChannelsController.RemoveAsync(System.Int64)">
+            <summary>
+            Remove channel
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">OK</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.DevicesController.SearchAsync(Lockium.Models.Queries.Devices.Devices.DeviceQuery)">
+            <summary>
+            Search of Device using given query
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">List of devices</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.DevicesController.FindAsync(System.Int64)">
+            <summary>
+            Get the device by id
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">Device data</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.DevicesController.AddAsync(Lockium.Models.Dtos.Devices.DeviceDto)">
+            <summary>
+            Add new device
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">Unique registered id</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.DevicesController.UpdateAsync(Lockium.Models.Dtos.Devices.DeviceDto)">
+            <summary>
+            Update device
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">OK</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.DevicesController.PatchAsync(System.Int64,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Lockium.Models.Dtos.Devices.DeviceDto})">
+            <summary>
+            Patch device
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">OK</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+        <member name="M:Lockium.Devices.Controllers.Devices.DevicesController.RemoveAsync(System.Int64)">
+            <summary>
+            Remove device
+            </summary>
+            <remarks>
+            </remarks>
+            <response code="200">OK</response>
+            <response code="400">Validation errors detected, operation denied</response>
+            <response code="401">Unauthorized request</response>
+        </member>
+    </members>
+</doc>

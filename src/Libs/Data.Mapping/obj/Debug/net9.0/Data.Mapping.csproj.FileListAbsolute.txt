@@ -1,0 +1,12 @@
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\bin\Debug\net9.0\Data.Mapping.deps.json
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\bin\Debug\net9.0\Data.Mapping.dll
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\bin\Debug\net9.0\Data.Mapping.pdb
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.AssemblyInfoInputs.cache
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.AssemblyInfo.cs
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.csproj.CoreCompileInputs.cache
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.sourcelink.json
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.dll
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\refint\Data.Mapping.dll
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\Data.Mapping.pdb
+C:\dev\LockBoard\Lockium\src\Libs\Data.Mapping\obj\Debug\net9.0\ref\Data.Mapping.dll

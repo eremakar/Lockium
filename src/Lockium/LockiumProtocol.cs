@@ -31,6 +31,10 @@ public static class LockiumProtocol
     public const int DeviceTypeLength = 2;
     public const int CcidLength = 20;
 
+    public const int FrameHeaderLength = 4 + 2;
+    public const int MinFrameLength = FrameHeaderLength + 2;
+    public const int MaxFrameLength = 2048;
+
     /// <summary>ComputXor — XOR of InData[0..Len-1].</summary>
     public static byte ComputeXor(ReadOnlySpan<byte> inData)
     {
@@ -121,6 +125,62 @@ public static class LockiumProtocol
         data[0] = channel;
         orderNumber.CopyTo(data.AsSpan(1));
         return BuildFrame(CmdOpenLock, data);
+    }
+
+    public static string GetCommandName(byte instruction) =>
+        instruction switch
+        {
+            CmdHeartbeat => "Heartbeat (0x80)",
+            CmdRegister => "Register (0x81)",
+            CmdOpenLock => "OpenLock (0x82)",
+            CmdReadSingleLockStatus => "ReadSingleLockStatus (0x83)",
+            CmdReadAllLockStatus => "ReadAllLockStatus (0x84)",
+            CmdDoorStatusPush => "DoorStatusPush (0x85)",
+            CmdOpenFewLocks => "OpenFewLocks (0x87)",
+            CmdKeepChannelOpen => "KeepChannelOpen (0x88)",
+            CmdChannelClose => "ChannelClose (0x89)",
+            _ => $"Unknown (0x{instruction:X2})",
+        };
+
+    public static string FormatFrameDetail(LockiumFrame frame) =>
+        frame switch
+        {
+            _ when frame.IsHeartbeat => FormatDeviceId(frame.Data),
+            _ when frame.IsRegister => FormatRegisterData(frame.Data),
+            _ when frame.IsOpenLock => FormatOpenLockResponse(frame.Data),
+            _ when frame.IsOpenFewLocks => FormatOpenFewLocksResponse(frame.Data),
+            _ when frame.IsReadAllLockStatus => FormatReadAllLockStatusResponse(frame.Data),
+            _ when frame.IsReadSingleLockStatus => FormatReadSingleLockStatusResponse(frame.Data),
+            _ when frame.IsDoorStatusPush => FormatDoorStatusPush(frame.Data),
+            _ when frame.IsKeepChannelOpen => FormatKeepChannelOpenResponse(frame.Data),
+            _ when frame.IsChannelClose => FormatChannelCloseResponse(frame.Data),
+            _ => frame.Data.Length > 0 ? FormatHex(frame.Data) : "(no data)",
+        };
+
+    public static string FormatCommandPayload(byte instruction, ReadOnlySpan<byte> data) =>
+        instruction switch
+        {
+            CmdOpenLock when data.Length > 0 =>
+                $"channel={data[0]}" + (data.Length > 1
+                    ? $", order={Encoding.ASCII.GetString(data[1..])}"
+                    : ""),
+            CmdReadSingleLockStatus or CmdKeepChannelOpen or CmdChannelClose when data.Length > 0 =>
+                $"channel={data[0]}",
+            CmdOpenFewLocks when data.Length > 0 =>
+                $"count={data[0]}, channels=[{FormatHex(data.Length > 1 ? data[1..] : ReadOnlySpan<byte>.Empty)}]",
+            _ => data.Length > 0 ? FormatHex(data) : "(empty)",
+        };
+
+    public static bool TryGetBodyFromRaw(ReadOnlySpan<byte> raw, out byte instruction, out byte[] data)
+    {
+        instruction = 0;
+        data = [];
+        if (!TryParseFrame(raw, out var frame))
+            return false;
+
+        instruction = frame.Instruction;
+        data = frame.Data;
+        return true;
     }
 
     public static string FormatHex(ReadOnlySpan<byte> data)

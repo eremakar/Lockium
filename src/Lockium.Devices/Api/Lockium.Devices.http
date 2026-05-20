@@ -1,0 +1,117 @@
+﻿@mainHost = http://localhost:20088/api/v1/
+@host = http://localhost:20089/api/v1/
+### health
+GET {{host}}health
+
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"user",
+    "password":"pass"
+}
+
+### Get the list of Device, using advanced search
+POST {{host}}devices/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Device
+POST {{host}}devices
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "name": "abc",
+    "connectionState": 1,
+}
+
+### Edit a Device
+PUT {{host}}devices
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "abc",
+    "connectionState": 1,
+}
+
+### Delete a Device
+DELETE {{host}}devices/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+
+### Get the list of Channel, using advanced search
+POST {{host}}channels/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Channel
+POST {{host}}channels
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "number": "abc",
+    "state": 1,
+    "lockState": 1,
+    "attributes": null,
+    "deviceId": 1,
+}
+
+### Edit a Channel
+PUT {{host}}channels
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "number": "abc",
+    "state": 1,
+    "lockState": 1,
+    "attributes": null,
+    "deviceId": 1,
+}
+
+### Delete a Channel
+DELETE {{host}}channels/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+

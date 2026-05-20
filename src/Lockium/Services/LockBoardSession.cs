@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Sockets;
 using Lockium.Models;
 using Lockium.Options;
@@ -10,9 +11,11 @@ public sealed class LockBoardSession(
     string remoteEndPoint,
     IOptions<LockBoardOptions> options,
     DoorStatusStore doorStatusStore,
+    LockiumProtocolFileLogger protocolLogger,
     ILogger<LockBoardSession> logger)
 {
-    private readonly SemaphoreSlim _ioLock = new(1, 1);
+    private readonly SemaphoreSlim _writeLock = new(1, 1);
+    private readonly SemaphoreSlim _commandLock = new(1, 1);
     private readonly LockBoardOptions _options = options.Value;
 
     private TaskCompletionSource<LockiumFrame>? _pendingResponse;
@@ -22,6 +25,21 @@ public sealed class LockBoardSession(
     public string RemoteEndPoint => remoteEndPoint;
 
     public void SetDeviceId(string deviceId) => DeviceId = deviceId;
+
+    public async Task WriteFrameAsync(byte[] frame, CancellationToken cancellationToken, string? note = null)
+    {
+        await _writeLock.WaitAsync(cancellationToken);
+        try
+        {
+            logger.LogInformation("[{Remote}] TX: {Frame}", remoteEndPoint, LockiumProtocol.FormatHex(frame));
+            protocolLogger.LogTx(remoteEndPoint, DeviceId, frame, note);
+            await stream.WriteAsync(frame, cancellationToken);
+        }
+        finally
+        {
+            _writeLock.Release();
+        }
+    }
 
     public async Task<ChannelCloseResult> CloseChannelAsync(
         byte channel,
@@ -145,6 +163,9 @@ public sealed class LockBoardSession(
             return;
         }
 
+        if (_pendingResponse is not null)
+            protocolLogger.LogUnsolicitedFrame(remoteEndPoint, DeviceId, frame, _expectedInstruction);
+
         if (frame.IsDoorStatusPush)
             RecordDoorStatusFromPush(frame);
     }
@@ -152,27 +173,53 @@ public sealed class LockBoardSession(
     private async Task<LockiumFrame> SendAndWaitAsync(
         byte[] command,
         byte expectedInstruction,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? apiContext = null)
     {
-        await _ioLock.WaitAsync(cancellationToken);
+        await _commandLock.WaitAsync(cancellationToken);
+        var sw = Stopwatch.StartNew();
         try
         {
             var tcs = new TaskCompletionSource<LockiumFrame>(TaskCreationOptions.RunContinuationsAsynchronously);
             _pendingResponse = tcs;
             _expectedInstruction = expectedInstruction;
 
-            logger.LogInformation("[{Remote}] TX: {Frame}", remoteEndPoint, LockiumProtocol.FormatHex(command));
-            await stream.WriteAsync(command, cancellationToken);
+            protocolLogger.LogCommandRequest(
+                remoteEndPoint,
+                DeviceId,
+                expectedInstruction,
+                command,
+                apiContext ?? LockiumProtocol.GetCommandName(expectedInstruction));
+
+            await WriteFrameAsync(command, cancellationToken);
 
             using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             timeoutCts.CancelAfter(_options.CommandTimeout);
 
-            return await tcs.Task.WaitAsync(timeoutCts.Token);
+            try
+            {
+                var response = await tcs.Task.WaitAsync(timeoutCts.Token);
+                sw.Stop();
+                protocolLogger.LogCommandResponse(
+                    remoteEndPoint,
+                    DeviceId,
+                    expectedInstruction,
+                    response,
+                    sw.Elapsed,
+                    matchedPending: true);
+                return response;
+            }
+            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            {
+                sw.Stop();
+                protocolLogger.LogCommandTimeout(remoteEndPoint, DeviceId, expectedInstruction, sw.Elapsed);
+                throw;
+            }
         }
         finally
         {
             _pendingResponse = null;
-            _ioLock.Release();
+            _commandLock.Release();
         }
     }
 

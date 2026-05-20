@@ -1,14 +1,18 @@
 using Lockium.Models;
 using Lockium.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lockium.Controllers;
 
 [ApiController]
 [Route("api/lock")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "SuperAdministrator,Administrator")]
 public sealed class LockController(
     LockConnectionRegistry registry,
-    DoorStatusStore doorStatusStore) : ControllerBase
+    DoorStatusStore doorStatusStore,
+    ILockiumEventHandler lockiumEventHandler) : ControllerBase
 {
     [HttpPost("{deviceId}/channels/{channel}/close")]
     public async Task<ActionResult<ChannelCloseResult>> ChannelClose(
@@ -91,6 +95,7 @@ public sealed class LockController(
             return NotFound(new { message = $"Device '{deviceId}' is not connected." });
 
         var result = await session.ReadAllChannelLockStatusAsync(cancellationToken);
+        await lockiumEventHandler.OnReadAllLockStatusCompletedAsync(deviceId, result, cancellationToken);
         return Ok(result);
     }
 

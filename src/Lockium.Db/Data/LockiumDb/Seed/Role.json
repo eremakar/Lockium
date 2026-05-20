@@ -1,0 +1,17 @@
+﻿[
+    {
+        "Id" : "1",
+        "Name" : "СуперАдминистратор",
+        "Code" : "SuperAdministrator"
+    },
+    {
+        "Id" : "2",
+        "Name" : "Администратор",
+        "Code" : "Administrator"
+    },
+    {
+        "Id" : "3",
+        "Name" : "Клиент",
+        "Code" : "Client"
+    }
+]

@@ -1,0 +1,65 @@
+﻿@mainHost = http://localhost:20088/api/v1/
+@host = http://localhost:20090/api/v1/
+### health
+GET {{host}}health
+
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"user",
+    "password":"pass"
+}
+
+### Get the list of Reservation, using advanced search
+POST {{host}}reservations/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Reservation
+POST {{host}}reservations
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "state": 1,
+    "clientId": 1,
+    "channelId": 1,
+}
+
+### Edit a Reservation
+PUT {{host}}reservations
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "state": 1,
+    "clientId": 1,
+    "channelId": 1,
+}
+
+### Delete a Reservation
+DELETE {{host}}reservations/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+

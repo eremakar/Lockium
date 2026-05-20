@@ -2,8 +2,19 @@
 @deviceId = AY000001
 @channel = 1
 
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{host}}/api/v1/authenticate
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"q1234567q"
+}
+
 ### Connected devices
 GET {{host}}/api/lock/devices
+Authorization: Bearer {{loginReq.response.body.token}}
 
 ###
 

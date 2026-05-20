@@ -1,0 +1,243 @@
+{
+  "format": 1,
+  "restore": {
+    "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\Core.Workflow.csproj": {}
+  },
+  "projects": {
+    "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\Core.Workflow.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\Core.Workflow.csproj",
+        "projectName": "Core.Workflow",
+        "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\Core.Workflow.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\DOCX Editor SDK\\33.1.44\\ToolboxNuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Syncfusion Toolbox for DOCX Editor SDK.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj": {
+                "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj",
+        "projectName": "Data.Mapping",
+        "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\DOCX Editor SDK\\33.1.44\\ToolboxNuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Syncfusion Toolbox for DOCX Editor SDK.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj",
+        "projectName": "Data.Repository",
+        "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\DOCX Editor SDK\\33.1.44\\ToolboxNuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Syncfusion Toolbox for DOCX Editor SDK.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj": {
+                "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.90, )"
+            },
+            "Dapper.SqlBuilder": {
+              "target": "Package",
+              "version": "[2.0.78, )"
+            },
+            "EnterpriseLibrary.TransientFaultHandling.Core": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

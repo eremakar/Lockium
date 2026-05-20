@@ -1,0 +1,12 @@
+{
+"profiles": {
+"Lockium.Orders": {
+"commandName": "Project",
+"launchBrowser": true,
+"environmentVariables": {
+"ASPNETCORE_ENVIRONMENT": "Development"
+},
+"applicationUrl": "https://localhost:454;http://localhost:20091"
+}
+}
+}

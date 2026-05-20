@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Data\LockiumDb\Seed\Role.json" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libs\Api.AspNetCore\Api.AspNetCore.csproj" />
+    <ProjectReference Include="..\Libs\Data.Mapping\Data.Mapping.csproj" />
+    <ProjectReference Include="..\Libs\Data.Repository\Data.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

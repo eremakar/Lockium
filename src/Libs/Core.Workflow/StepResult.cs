@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Core.Workflow
+{
+    public class StepResult
+    {
+        public bool Success { get { return Errors?.Count == 0; } }
+        public StepState State { get; set; }
+        public int? ResultCode { get; set; }
+        public List<string> Errors { get; set; }
+        public object Data { get; set; }
+
+        public StepResult()
+        {
+            Errors = new List<string>();
+        }
+
+        public StepResult(StepResult other) : 
+            this()
+        {
+            State = other.State;
+            Errors = other.Errors;
+        }
+
+        public void AddError(string message)
+        {
+            Errors.Add(message);
+        }
+
+        public StepResult Reject(string message, int? resultCode)
+        {
+            State = StepState.RejectedByStep;
+            ResultCode = resultCode;
+            AddError(message);
+
+            return this;
+        }
+
+        public StepResult Reject(string message)
+        {
+            return Reject(message, null);
+        }
+
+        public StepResult Ok()
+        {
+            State = StepState.Success;
+
+            return this;
+        }
+    }
+}
