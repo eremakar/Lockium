@@ -7,6 +7,7 @@ using System.Net.Mime;
 using Microsoft.EntityFrameworkCore;
 using Lockium.Data.LockiumDb.Entities;
 using Lockium.Data.LockiumDb.Entities.Devices;
+using Lockium.Data.LockiumDb.Entities.Lockers;
 using Lockium.Data.LockiumDb.Entities.Reservations;
 using Lockium.Models.Dtos.Reservations;
 using Lockium.Models.Queries.Reservations.Reservations;
@@ -43,6 +44,7 @@ namespace Lockium.Reservations.Controllers.Reservations
                 Id = r.Id,
                 State = r.State,
                 ClientId = r.ClientId,
+                CellId = r.CellId,
                 ChannelId = r.ChannelId,
                 Client = r.Client == null
                     ? null
@@ -50,6 +52,17 @@ namespace Lockium.Reservations.Controllers.Reservations
                     {
                         Id = r.Client.Id,
                         UserName = r.Client.UserName,
+                    },
+                Cell = r.Cell == null
+                    ? null
+                    : new Cell
+                    {
+                        Id = r.Cell.Id,
+                        Number = r.Cell.Number,
+                        State = r.Cell.State,
+                        Attributes = r.Cell.Attributes,
+                        LockerId = r.Cell.LockerId,
+                        ChannelId = r.Cell.ChannelId,
                     },
                 Channel = r.Channel == null
                     ? null

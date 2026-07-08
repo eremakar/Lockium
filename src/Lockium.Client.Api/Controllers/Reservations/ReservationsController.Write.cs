@@ -52,7 +52,7 @@ namespace Lockium.Client.Api.Controllers.Reservations
         /// Забронировать ячейку (переход workflow 0 → 1 «Активна»).
         /// </summary>
         /// <remarks>
-        /// Создаёт бронь на указанную ячейку для клиента. Обязательны <c>ChannelId</c> и <c>ClientId</c>.
+        /// Создаёт бронь на указанную ячейку для клиента. Обязательны <c>ClientId</c> и <c>CellId</c> или <c>ChannelId</c>.
         ///
         /// Условия:
         /// - ячейка существует и в статусе «свободна»;

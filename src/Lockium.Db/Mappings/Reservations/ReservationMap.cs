@@ -29,6 +29,7 @@ namespace Lockium.Mappings.Reservations
                 result.State = source.State;
                 result.CreatedTime = source.CreatedTime;
                 result.ClientId = source.ClientId;
+                result.CellId = source.CellId;
                 result.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)
@@ -42,6 +43,7 @@ namespace Lockium.Mappings.Reservations
                     };
                 }
 
+                result.Cell = mapContext.CellMap.Map(source.Cell, options);
                 result.Channel = mapContext.ChannelMap.Map(source.Channel, options);
             }
             if (options.MapCollections)
@@ -65,12 +67,15 @@ namespace Lockium.Mappings.Reservations
                 result.State = source.State;
                 result.CreatedTime = source.CreatedTime.ToUtc();
                 result.ClientId = source.ClientId;
+                result.CellId = source.CellId;
                 result.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)
             {
                 if (source.ClientId == null)
                     result.Client = mapContext.UserMap.ReverseMap(source.Client, options);
+                if (source.CellId == null)
+                    result.Cell = mapContext.CellMap.ReverseMap(source.Cell, options);
                 if (source.ChannelId == null)
                     result.Channel = mapContext.ChannelMap.ReverseMap(source.Channel, options);
             }
@@ -92,7 +97,9 @@ namespace Lockium.Mappings.Reservations
             if (options.MapProperties)
             {
                 destination.State = source.State;
+                destination.CreatedTime = source.CreatedTime;
                 destination.ClientId = source.ClientId;
+                destination.CellId = source.CellId;
                 destination.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)

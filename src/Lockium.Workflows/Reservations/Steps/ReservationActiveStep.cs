@@ -61,6 +61,7 @@ namespace Lockium.Workflows.Reservations.Steps
             var data = new Reservation
             {
                 ClientId = request.ClientId,
+                CellId = request.CellId,
                 ChannelId = request.ChannelId,
             };
 
@@ -72,13 +73,10 @@ namespace Lockium.Workflows.Reservations.Steps
 
         public override async Task RunCore(Reservation data)
         {
-            if (!data.ChannelId.HasValue)
-            {
-                stepContext.Result.Reject("Channel is required");
+            if (!await ResolveCellAndChannelAsync(data))
                 return;
-            }
 
-            var channelId = data.ChannelId.Value;
+            var channelId = data.ChannelId!.Value;
 
             var channel = await db.Channels!
                 .FirstOrDefaultAsync(c => c.Id == channelId);
@@ -108,6 +106,50 @@ namespace Lockium.Workflows.Reservations.Steps
 
             channel.State = (int)ChannelStateIds.Reserved;
             db.Channels!.Update(channel);
+        }
+
+        private async Task<bool> ResolveCellAndChannelAsync(Reservation data)
+        {
+            if (data.CellId.HasValue)
+            {
+                var cell = await db.Cells!
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.Id == data.CellId.Value);
+
+                if (cell == null)
+                {
+                    stepContext.Result.Reject($"Cell {data.CellId} not found");
+                    return false;
+                }
+
+                if (!data.ChannelId.HasValue)
+                {
+                    if (!cell.ChannelId.HasValue)
+                    {
+                        stepContext.Result.Reject($"Cell {data.CellId} has no channel");
+                        return false;
+                    }
+
+                    data.ChannelId = cell.ChannelId;
+                }
+
+                return true;
+            }
+
+            if (data.ChannelId.HasValue)
+            {
+                var cell = await db.Cells!
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.ChannelId == data.ChannelId.Value);
+
+                if (cell != null)
+                    data.CellId = cell.Id;
+
+                return true;
+            }
+
+            stepContext.Result.Reject("Cell or Channel is required");
+            return false;
         }
     }
 }

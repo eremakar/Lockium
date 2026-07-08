@@ -189,6 +189,8 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
 {
     private const string LockersTagName = "Lockers";
     private const string LockersDisplayName = "Lockers — шкафы (постаматы)";
+    private const string CellsTagName = "Cells";
+    private const string CellsDisplayName = "Cells — ячейки шкафа";
     private const string DevicesTagName = "Devices";
     private const string DevicesDisplayName = "Devices — устройства (платы замков)";
     private const string ChannelsTagName = "Channels";
@@ -205,6 +207,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
     private static readonly string[] PreferredOrder =
     [
         LockersTagName,
+        CellsTagName,
         DevicesTagName,
         ChannelsTagName,
         ReservationsTagName,
@@ -227,6 +230,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
                     tag.Name = tag.Name switch
                     {
                         LockersTagName => LockersDisplayName,
+                        CellsTagName => CellsDisplayName,
                         DevicesTagName => DevicesDisplayName,
                         ChannelsTagName => ChannelsDisplayName,
                         ReservationsTagName => ReservationsDisplayName,
@@ -247,6 +251,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
             tag.Name = tag.Name switch
             {
                 LockersTagName => LockersDisplayName,
+                CellsTagName => CellsDisplayName,
                 DevicesTagName => DevicesDisplayName,
                 ChannelsTagName => ChannelsDisplayName,
                 ReservationsTagName => ReservationsDisplayName,
@@ -267,6 +272,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
                 var normalizedTagName = tag.Name switch
                 {
                     LockersDisplayName => LockersTagName,
+                    CellsDisplayName => CellsTagName,
                     DevicesDisplayName => DevicesTagName,
                     ChannelsDisplayName => ChannelsTagName,
                     ReservationsDisplayName => ReservationsTagName,
@@ -289,6 +295,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
                     .Select(tag => tag.Name switch
                     {
                         LockersDisplayName => LockersTagName,
+                    CellsDisplayName => CellsTagName,
                         DevicesDisplayName => DevicesTagName,
                         ChannelsDisplayName => ChannelsTagName,
                         ReservationsDisplayName => ReservationsTagName,

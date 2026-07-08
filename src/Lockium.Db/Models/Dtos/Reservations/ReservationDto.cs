@@ -1,4 +1,5 @@
 ﻿using Lockium.Models.Dtos;
+using Lockium.Models.Dtos.Lockers;
 using Lockium.Models.Dtos.Devices;
 
 namespace Lockium.Models.Dtos.Reservations
@@ -16,7 +17,11 @@ namespace Lockium.Models.Dtos.Reservations
         /// </summary>
         public int? ClientId { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public long? CellId { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public long? ChannelId { get; set; }
 
@@ -25,7 +30,11 @@ namespace Lockium.Models.Dtos.Reservations
         /// </summary>
         public UserDto? Client { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public CellDto? Cell { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public ChannelDto? Channel { get; set; }
     }

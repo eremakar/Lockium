@@ -1,5 +1,12 @@
 @mainHost = http://92.38.48.35:5000/api/v1/
-@host = http://92.38.48.35:5007/api/v1/
+#@host = http://92.38.48.35:5007/api/v1/
+@host = http://localhost:5007/api/v1/
+
+@lockerId = 1
+@cellId = 1
+@channelId = 3
+@orderId = 1
+@clientId = 1
 
 ### health
 GET {{host}}health
@@ -10,11 +17,48 @@ POST {{mainHost}}authenticate
 Content-Type: application/json
 
 {
-    "username":"admin",
-    "password":"q1234567q"
+    "username": "admin",
+    "password": "q1234567q"
 }
 
-### Search postamats (devices)
+###############################################################################
+# Lockers
+###############################################################################
+
+### Search lockers (postamats)
+POST {{host}}lockers/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": { "skip": 0, "take": 10, "returnCount": true }
+}
+
+### Get locker by id
+GET {{host}}lockers/{{lockerId}}
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Search cells (locker cells)
+POST {{host}}cells/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": { "skip": 0, "take": 10, "returnCount": true },
+    "filter": {
+        "lockerId": { "operand1": {{lockerId}}, "operator": "equals" }
+    }
+}
+
+### Get cell by id
+GET {{host}}cells/{{cellId}}
+Authorization: Bearer {{loginReq.response.body.token}}
+
+###############################################################################
+# Devices / Channels (hardware)
+###############################################################################
+
+### Search devices (lock boards)
 POST {{host}}devices/search
 Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
@@ -23,7 +67,11 @@ Content-Type: application/json
     "paging": { "skip": 0, "take": 10, "returnCount": true }
 }
 
-### Search cells (channels)
+### Get device by id
+GET {{host}}devices/1
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Search channels (lock board cells)
 POST {{host}}channels/search
 Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
@@ -32,24 +80,83 @@ Content-Type: application/json
     "paging": { "skip": 0, "take": 10, "returnCount": true }
 }
 
-### Book cell (reservation)
+### Get channel by id
+GET {{host}}channels/{{channelId}}
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Open channel by active order
+POST {{host}}channels/{{channelId}}/open
+Authorization: Bearer {{loginReq.response.body.token}}
+
+###############################################################################
+# Reservations
+###############################################################################
+
+### Book cell (reservation, by cell)
 POST {{host}}reservations
 Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": 1,
-    "channelId": 3
+    "clientId": {{clientId}},
+    "cellId": {{cellId}}
 }
 
-### Create order
+### Book cell (reservation, by channel)
+POST {{host}}reservations
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": {{clientId}},
+    "channelId": {{channelId}}
+}
+
+###############################################################################
+# Orders
+###############################################################################
+
+### Search orders
+POST {{host}}orders/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": { "skip": 0, "take": 10, "returnCount": true }
+}
+
+### Get order by id
+GET {{host}}orders/{{orderId}}
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Create order (by locker — auto-picks free cell)
 POST {{host}}orders
 Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": 1,
-    "channelId": 3
+    "clientId": {{clientId}},
+    "lockerId": {{lockerId}}
+}
+
+### Create order (by cell)
+POST {{host}}orders
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": {{clientId}},
+    "cellId": {{cellId}}
+}
+
+### Create order (by channel)
+POST {{host}}orders
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": {{clientId}},
+    "channelId": {{channelId}}
 }
 
 ### Run order workflow
@@ -58,7 +165,78 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": {{orderId}},
     "previousState": 1,
     "nextState": 2
+}
+
+### Open cell for deposit
+POST {{host}}orders/{{orderId}}/deposit/open
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Confirm deposited (Created → Occupied)
+POST {{host}}orders/{{orderId}}/deposited
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Open cell for pickup
+POST {{host}}orders/{{orderId}}/pickup/open
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Confirm pickup (Occupied → Completed)
+POST {{host}}orders/{{orderId}}/pickup
+Authorization: Bearer {{loginReq.response.body.token}}
+
+###############################################################################
+# Shipments (order alias)
+###############################################################################
+
+### Create shipment (by locker)
+POST {{host}}shipments
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": {{clientId}},
+    "lockerId": {{lockerId}},
+    "trackingNumber": "TRK-001"
+}
+
+### Create shipment (by cell)
+POST {{host}}shipments
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": {{clientId}},
+    "cellId": {{cellId}},
+    "trackingNumber": "TRK-002"
+}
+
+### Shipment: open for deposit
+POST {{host}}shipments/{{orderId}}/deposit/open
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Shipment: confirm deposited
+POST {{host}}shipments/{{orderId}}/deposited
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Shipment: open for pickup
+POST {{host}}shipments/{{orderId}}/pickup/open
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Shipment: confirm pickup
+POST {{host}}shipments/{{orderId}}/pickup
+Authorization: Bearer {{loginReq.response.body.token}}
+
+###############################################################################
+# Pickup
+###############################################################################
+
+### Pickup by PIN
+POST {{host}}pickup
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "pin": "1234"
 }

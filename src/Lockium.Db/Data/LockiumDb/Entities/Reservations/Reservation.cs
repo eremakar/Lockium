@@ -1,5 +1,6 @@
 ﻿using Data.Repository;
 using Lockium.Data.LockiumDb.Entities;
+using Lockium.Data.LockiumDb.Entities.Lockers;
 using Lockium.Data.LockiumDb.Entities.Devices;
 
 namespace Lockium.Data.LockiumDb.Entities.Reservations
@@ -17,11 +18,16 @@ namespace Lockium.Data.LockiumDb.Entities.Reservations
         /// </summary>
         public int? ClientId { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public long? CellId { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public long? ChannelId { get; set; }
 
         public User? Client { get; set; }
+        public Cell? Cell { get; set; }
         public Channel? Channel { get; set; }
     }
 }

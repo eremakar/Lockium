@@ -16,7 +16,11 @@ namespace Lockium.Models.Queries.Reservations.Reservations
         /// </summary>
         public FilterOperand<int?>? ClientId { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public FilterOperand<long?>? CellId { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public FilterOperand<long?>? ChannelId { get; set; }
     }
