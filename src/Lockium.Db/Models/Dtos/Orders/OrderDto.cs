@@ -33,6 +33,10 @@ namespace Lockium.Models.Dtos.Orders
         /// </summary>
         public DateTime ExpiresAt { get; set; }
         /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        public object? Recipient { get; set; }
+        /// <summary>
         /// Клиент
         /// </summary>
         public int? ClientId { get; set; }

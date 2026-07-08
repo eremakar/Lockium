@@ -3,9 +3,9 @@
 @host = http://localhost:5007/api/v1/
 
 @lockerId = 1
-@cellId = 1
+@cellId = 4
 @channelId = 3
-@orderId = 1
+@orderId = 4
 @clientId = 1
 
 ### health
@@ -98,8 +98,11 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
-    "cellId": {{cellId}}
+    "cellId": {{cellId}},
+    "recipient": {
+        "name": "Иван Иванов",
+        "phone": "+79001234567"
+    }
 }
 
 ### Book cell (reservation, by channel)
@@ -108,8 +111,11 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
-    "channelId": {{channelId}}
+    "channelId": {{channelId}},
+    "recipient": {
+        "name": "Иван Иванов",
+        "phone": "+79001234567"
+    }
 }
 
 ###############################################################################
@@ -135,8 +141,11 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
-    "lockerId": {{lockerId}}
+    "lockerId": {{lockerId}},
+    "recipient": {
+        "name": "Иван Иванов",
+        "phone": "+79001234567"
+    }
 }
 
 ### Create order (by cell)
@@ -145,8 +154,11 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
-    "cellId": {{cellId}}
+    "cellId": {{cellId}},
+    "recipient": {
+        "name": "Иван Иванов",
+        "phone": "+79001234567"
+    }
 }
 
 ### Create order (by channel)
@@ -155,7 +167,6 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
     "channelId": {{channelId}}
 }
 
@@ -196,9 +207,12 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
     "lockerId": {{lockerId}},
-    "trackingNumber": "TRK-001"
+    "trackingNumber": "TRK-001",
+    "recipient": {
+        "name": "Иван Иванов",
+        "phone": "+79001234567"
+    }
 }
 
 ### Create shipment (by cell)
@@ -207,7 +221,6 @@ Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "clientId": {{clientId}},
     "cellId": {{cellId}},
     "trackingNumber": "TRK-002"
 }

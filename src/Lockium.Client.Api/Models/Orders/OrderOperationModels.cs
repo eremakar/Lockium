@@ -4,7 +4,7 @@ public sealed class ShipmentCreateRequest
 {
     public string? TrackingNumber { get; set; }
     public string? Size { get; set; }
-    public int? ClientId { get; set; }
+    public object? Recipient { get; set; }
     public DateTime? ExpiresAt { get; set; }
     public long? LockerId { get; set; }
     public long? CellId { get; set; }

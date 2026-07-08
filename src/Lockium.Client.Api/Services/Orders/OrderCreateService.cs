@@ -8,6 +8,7 @@ using Lockium.Workflows.Models;
 using Lockium.Workflows.Orders;
 using Lockium.Workflows.Orders.Steps;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Lockium.Client.Api.Services.Orders;
 
@@ -18,10 +19,14 @@ public interface IOrderCreateService
 
 public sealed class OrderCreateService(
     LockiumDbContext db,
-    IMicroserviceStateWorkflow stateWorkflow) : IOrderCreateService
+    IMicroserviceStateWorkflow stateWorkflow,
+    IHttpContextAccessor httpContextAccessor) : IOrderCreateService
 {
     public async Task<object> CreateAsync(OrderDto request, CancellationToken cancellationToken)
     {
+        if (!TryApplyCurrentClientId(request, out var authError))
+            return authError!;
+
         var stepContext = new StepContext
         {
             ObjectType = ObjectTypeNames.Order,
@@ -45,5 +50,22 @@ public sealed class OrderCreateService(
             return stepContext.Result;
 
         return stepContext.Result.Data ?? stepContext.Output!;
+    }
+
+    private bool TryApplyCurrentClientId(OrderDto request, out StepResult? error)
+    {
+        error = null;
+        var userIdClaim = httpContextAccessor.HttpContext?.User?.Claims
+            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var clientId))
+        {
+            error = new StepResult();
+            error.Reject("Authenticated user id is required");
+            return false;
+        }
+
+        request.ClientId = clientId;
+        return true;
     }
 }

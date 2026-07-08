@@ -10,7 +10,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj",
         "projectName": "Api.AspNetCore",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -115,7 +115,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\Core.Workflow.csproj",
         "projectName": "Core.Workflow",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\Core.Workflow.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Core.Workflow\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -186,7 +186,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj",
         "projectName": "Data.Mapping",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -253,7 +253,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj",
         "projectName": "Data.Repository",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -350,7 +350,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\Lockium.Db.csproj",
         "projectName": "Lockium.Db",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\Lockium.Db.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -427,7 +427,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Workflows\\Lockium.Workflows.csproj",
         "projectName": "Lockium.Workflows",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Workflows\\Lockium.Workflows.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Workflows\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -518,7 +518,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium\\Lockium.csproj",
         "projectName": "Lockium",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium\\Lockium.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [

@@ -10,6 +10,7 @@ using Lockium.Workflows.Orders;
 using Lockium.Workflows.Reservations;
 using Lockium.Workflows.Reservations.Steps;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Lockium.Workflows.Orders.Steps
 {
@@ -95,6 +96,9 @@ namespace Lockium.Workflows.Orders.Steps
                 PinCode = request.PinCode,
                 TrackingNumber = request.TrackingNumber,
                 ExpiresAt = request.ExpiresAt,
+                Recipient = request.Recipient != null
+                    ? JsonConvert.SerializeObject(request.Recipient)
+                    : null,
             };
 
             if (request.Id != 0)

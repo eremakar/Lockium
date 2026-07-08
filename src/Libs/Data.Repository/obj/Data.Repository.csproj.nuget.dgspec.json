@@ -10,7 +10,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj",
         "projectName": "Data.Mapping",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -77,7 +77,7 @@
         "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj",
         "projectName": "Data.Repository",
         "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj",
-        "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+        "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
         "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [

@@ -13,6 +13,10 @@ namespace Lockium.Models.Dtos.Reservations
         public int State { get; set; }
         public DateTime CreatedTime { get; set; }
         /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        public object? Recipient { get; set; }
+        /// <summary>
         /// Клиент
         /// </summary>
         public int? ClientId { get; set; }

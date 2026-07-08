@@ -2,6 +2,7 @@
 using Data.Repository.Helpers;
 using Lockium.Data.LockiumDb.Entities.Orders;
 using Lockium.Models.Dtos.Orders;
+using Newtonsoft.Json;
 
 namespace Lockium.Mappings.Orders
 {
@@ -12,6 +13,14 @@ namespace Lockium.Mappings.Orders
         public OrderMap(DbMapContext mapContext)
         {
             this.mapContext = mapContext;
+        }
+
+        private static object? DeserializeJsonObject(string? source)
+        {
+            if (string.IsNullOrWhiteSpace(source))
+                return null;
+
+            return JsonConvert.DeserializeObject(JsonHelper.NormalizeSafe(source));
         }
 
         public override OrderDto MapCore(Order source, MapOptions? options = null)
@@ -32,6 +41,7 @@ namespace Lockium.Mappings.Orders
                 result.PickupOpened = source.PickupOpened;
                 result.TrackingNumber = source.TrackingNumber;
                 result.ExpiresAt = source.ExpiresAt;
+                result.Recipient = DeserializeJsonObject(source.Recipient);
                 result.ClientId = source.ClientId;
                 result.LockerId = source.LockerId;
                 result.CellId = source.CellId;
@@ -77,6 +87,8 @@ namespace Lockium.Mappings.Orders
                 result.PickupOpened = source.PickupOpened;
                 result.TrackingNumber = source.TrackingNumber;
                 result.ExpiresAt = source.ExpiresAt.ToUtc();
+                if (source.Recipient != null)
+                    result.Recipient = JsonConvert.SerializeObject(source.Recipient);
                 result.ClientId = source.ClientId;
                 result.LockerId = source.LockerId;
                 result.CellId = source.CellId;
@@ -117,6 +129,7 @@ namespace Lockium.Mappings.Orders
                 destination.PickupOpened = source.PickupOpened;
                 destination.TrackingNumber = source.TrackingNumber;
                 destination.ExpiresAt = source.ExpiresAt;
+                destination.Recipient = JsonHelper.NormalizeSafe(source.Recipient);
                 destination.ClientId = source.ClientId;
                 destination.LockerId = source.LockerId;
                 destination.CellId = source.CellId;

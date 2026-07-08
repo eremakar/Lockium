@@ -23,6 +23,7 @@ public sealed class ShipmentsController(
 {
     /// <summary>
     /// Создать доставку: подбирается свободная ячейка в шкафу, возвращается PIN.
+    /// ClientId берётся из JWT текущего пользователя.
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(ShipmentCreateResponse), StatusCodes.Status200OK)]
@@ -33,12 +34,12 @@ public sealed class ShipmentsController(
     {
         var orderRequest = new OrderDto
         {
-            ClientId = request.ClientId,
             LockerId = request.LockerId,
             CellId = request.CellId,
             ChannelId = request.ChannelId,
             TrackingNumber = request.TrackingNumber,
             ExpiresAt = request.ExpiresAt ?? default,
+            Recipient = request.Recipient,
         };
 
         var result = await orderCreateService.CreateAsync(orderRequest, HttpContext.RequestAborted);

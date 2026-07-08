@@ -7,6 +7,7 @@ using System.Net.Mime;
 using Microsoft.EntityFrameworkCore;
 using Lockium.Data.LockiumDb.Entities;
 using Lockium.Data.LockiumDb.Entities.Devices;
+using Lockium.Data.LockiumDb.Entities.Lockers;
 using Lockium.Data.LockiumDb.Entities.Orders;
 using Lockium.Models.Dtos.Orders;
 using Lockium.Models.Queries.Orders.Orders;
@@ -42,7 +43,16 @@ namespace Lockium.Orders.Controllers.Orders
             {
                 Id = o.Id,
                 State = o.State,
+                CreatedTime = o.CreatedTime,
+                PinCode = o.PinCode,
+                DepositOpened = o.DepositOpened,
+                PickupOpened = o.PickupOpened,
+                TrackingNumber = o.TrackingNumber,
+                ExpiresAt = o.ExpiresAt,
+                Recipient = o.Recipient,
                 ClientId = o.ClientId,
+                LockerId = o.LockerId,
+                CellId = o.CellId,
                 ChannelId = o.ChannelId,
                 Client = o.Client == null
                     ? null
@@ -50,6 +60,26 @@ namespace Lockium.Orders.Controllers.Orders
                     {
                         Id = o.Client.Id,
                         UserName = o.Client.UserName,
+                    },
+                Locker = o.Locker == null
+                    ? null
+                    : new Locker
+                    {
+                        Id = o.Locker.Id,
+                        Name = o.Locker.Name,
+                        Address = o.Locker.Address,
+                        Type = o.Locker.Type,
+                    },
+                Cell = o.Cell == null
+                    ? null
+                    : new Cell
+                    {
+                        Id = o.Cell.Id,
+                        Number = o.Cell.Number,
+                        State = o.Cell.State,
+                        Attributes = o.Cell.Attributes,
+                        LockerId = o.Cell.LockerId,
+                        ChannelId = o.Cell.ChannelId,
                     },
                 Channel = o.Channel == null
                     ? null

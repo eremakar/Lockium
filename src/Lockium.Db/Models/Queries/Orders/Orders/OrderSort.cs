@@ -32,6 +32,10 @@ namespace Lockium.Models.Queries.Orders.Orders
         /// </summary>
         public SortOperand? ExpiresAt { get; set; }
         /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        public SortOperand? Recipient { get; set; }
+        /// <summary>
         /// Клиент
         /// </summary>
         public SortOperand? ClientId { get; set; }

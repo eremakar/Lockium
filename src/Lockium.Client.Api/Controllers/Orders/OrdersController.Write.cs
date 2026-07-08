@@ -13,6 +13,9 @@ namespace Lockium.Client.Api.Controllers.Orders
         /// <summary>
         /// Создать заказ (переход workflow 0 → 1 «Создан»).
         /// </summary>
+        /// <remarks>
+        /// <c>ClientId</c> берётся из JWT текущего пользователя; передавать в теле не нужно.
+        /// </remarks>
         [Route("/api/v1/orders")]
         [HttpPost]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]

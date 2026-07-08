@@ -32,6 +32,10 @@ namespace Lockium.Models.Queries.Orders.Orders
         /// </summary>
         public FilterOperand<DateTime>? ExpiresAt { get; set; }
         /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        public FilterOperand<object>? Recipient { get; set; }
+        /// <summary>
         /// Клиент
         /// </summary>
         public FilterOperand<int?>? ClientId { get; set; }

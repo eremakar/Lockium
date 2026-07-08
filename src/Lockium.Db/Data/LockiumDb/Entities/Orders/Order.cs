@@ -1,4 +1,5 @@
-﻿using Data.Repository;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Data.Repository;
 using Lockium.Data.LockiumDb.Entities;
 using Lockium.Data.LockiumDb.Entities.Lockers;
 using Lockium.Data.LockiumDb.Entities.Devices;
@@ -33,6 +34,11 @@ namespace Lockium.Data.LockiumDb.Entities.Orders
         /// Срок хранения
         /// </summary>
         public DateTime ExpiresAt { get; set; }
+        /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        [Column(TypeName = "jsonb")]
+        public string? Recipient { get; set; }
         /// <summary>
         /// Клиент
         /// </summary>

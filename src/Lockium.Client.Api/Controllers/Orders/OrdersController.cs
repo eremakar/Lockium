@@ -51,6 +51,13 @@ namespace Lockium.Client.Api.Controllers.Orders
             {
                 Id = o.Id,
                 State = o.State,
+                CreatedTime = o.CreatedTime,
+                PinCode = o.PinCode,
+                DepositOpened = o.DepositOpened,
+                PickupOpened = o.PickupOpened,
+                TrackingNumber = o.TrackingNumber,
+                ExpiresAt = o.ExpiresAt,
+                Recipient = o.Recipient,
                 ClientId = o.ClientId,
                 LockerId = o.LockerId,
                 CellId = o.CellId,

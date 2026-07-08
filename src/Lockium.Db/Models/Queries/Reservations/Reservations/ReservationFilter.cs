@@ -12,6 +12,10 @@ namespace Lockium.Models.Queries.Reservations.Reservations
         public FilterOperand<int>? State { get; set; }
         public FilterOperand<DateTime>? CreatedTime { get; set; }
         /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        public FilterOperand<object>? Recipient { get; set; }
+        /// <summary>
         /// Клиент
         /// </summary>
         public FilterOperand<int?>? ClientId { get; set; }

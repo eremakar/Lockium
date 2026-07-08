@@ -3,6 +3,7 @@ using System;
 using Lockium.Data.LockiumDb.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lockium.Migrations
 {
     [DbContext(typeof(LockiumDbContext))]
-    partial class LockiumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260708194801_Order_Reservation_Recipient")]
+    partial class Order_Reservation_Recipient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

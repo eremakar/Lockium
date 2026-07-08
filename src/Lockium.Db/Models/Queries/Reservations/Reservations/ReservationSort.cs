@@ -12,6 +12,10 @@ namespace Lockium.Models.Queries.Reservations.Reservations
         public SortOperand? State { get; set; }
         public SortOperand? CreatedTime { get; set; }
         /// <summary>
+        /// Данные о получателе
+        /// </summary>
+        public SortOperand? Recipient { get; set; }
+        /// <summary>
         /// Клиент
         /// </summary>
         public SortOperand? ClientId { get; set; }

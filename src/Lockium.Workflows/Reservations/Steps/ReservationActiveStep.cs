@@ -4,6 +4,7 @@ using Lockium.Models.Dtos.Reservations;
 using Lockium.Workflows;
 using Lockium.Workflows.Reservations;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Lockium.Workflows.Reservations.Steps
 {
@@ -63,6 +64,9 @@ namespace Lockium.Workflows.Reservations.Steps
                 ClientId = request.ClientId,
                 CellId = request.CellId,
                 ChannelId = request.ChannelId,
+                Recipient = request.Recipient != null
+                    ? JsonConvert.SerializeObject(request.Recipient)
+                    : null,
             };
 
             if (request.Id != 0)

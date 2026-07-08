@@ -3,6 +3,7 @@ using Data.Repository.Helpers;
 using Lockium.Data.LockiumDb.Entities.Reservations;
 using Lockium.Models.Dtos;
 using Lockium.Models.Dtos.Reservations;
+using Newtonsoft.Json;
 
 namespace Lockium.Mappings.Reservations
 {
@@ -28,6 +29,7 @@ namespace Lockium.Mappings.Reservations
             {
                 result.State = source.State;
                 result.CreatedTime = source.CreatedTime;
+                result.Recipient = source.Recipient;
                 result.ClientId = source.ClientId;
                 result.CellId = source.CellId;
                 result.ChannelId = source.ChannelId;
@@ -66,6 +68,8 @@ namespace Lockium.Mappings.Reservations
             {
                 result.State = source.State;
                 result.CreatedTime = source.CreatedTime.ToUtc();
+                if (source.Recipient != null)
+                    result.Recipient = JsonConvert.SerializeObject(source.Recipient);
                 result.ClientId = source.ClientId;
                 result.CellId = source.CellId;
                 result.ChannelId = source.ChannelId;
@@ -98,6 +102,7 @@ namespace Lockium.Mappings.Reservations
             {
                 destination.State = source.State;
                 destination.CreatedTime = source.CreatedTime;
+                destination.Recipient = JsonHelper.NormalizeSafe(source.Recipient);
                 destination.ClientId = source.ClientId;
                 destination.CellId = source.CellId;
                 destination.ChannelId = source.ChannelId;

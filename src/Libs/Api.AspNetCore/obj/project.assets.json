@@ -6145,7 +6145,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget": {},
+    "C:\\Users\\S1908\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -6154,7 +6154,7 @@
       "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj",
       "projectName": "Api.AspNetCore",
       "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj",
-      "packagesPath": "C:\\Users\\S1908\\AppData\\Local\\Temp\\cursor-sandbox-cache\\36716623352e82f0de51bc80114b56d3\\nuget",
+      "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
       "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
