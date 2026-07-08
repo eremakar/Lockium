@@ -46,8 +46,7 @@ namespace Lockium.Devices.Controllers.Devices
         [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<PagedList<DeviceDto>> SearchAsync([FromBody] DeviceQuery query)
         {
-            return await SearchUsingEfAsync(query, _ => _.
-                Include(_ => _.Channels));
+            return await SearchUsingEfAsync(query, null, apply: LoadChannelsAsync);
         }
 
         /// <summary>
@@ -65,8 +64,30 @@ namespace Lockium.Devices.Controllers.Devices
         [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<DeviceDto> FindAsync([FromRoute] long key)
         {
-            return await FindUsingEfAsync(key, _ => _.
-                Include(_ => _.Channels));
+            return await FindUsingEfAsync(key, null, apply: LoadChannelsAsync);
+        }
+
+        private async Task LoadChannelsAsync(List<Device> devices)
+        {
+            if (devices.Count == 0)
+                return;
+
+            var deviceIds = devices.Select(d => d.Id).ToList();
+            var channels = await restDb.Set<Channel>()
+                .AsNoTracking()
+                .Where(c => c.DeviceId != null && deviceIds.Contains(c.DeviceId.Value))
+                .ToListAsync();
+
+            var channelsByDeviceId = channels
+                .GroupBy(c => c.DeviceId!.Value)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            foreach (var device in devices)
+            {
+                device.Channels = channelsByDeviceId.TryGetValue(device.Id, out var list)
+                    ? list
+                    : [];
+            }
         }
 
     }

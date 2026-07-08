@@ -40,5 +40,6 @@
     <ProjectReference Include="..\Libs\Data.Mapping\Data.Mapping.csproj" />
     <ProjectReference Include="..\Libs\Data.Repository\Data.Repository.csproj" />
     <ProjectReference Include="..\Lockium.Db\Lockium.Db.csproj" />
+    <ProjectReference Include="..\Lockium.Workflows\Lockium.Workflows.csproj" />
   </ItemGroup>
 </Project>

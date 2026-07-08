@@ -1,0 +1,77 @@
+﻿@mainHost = http://92.38.48.35:5000/api/v1/
+@host = http://92.38.48.35:5005/api/v1/
+### health
+GET {{host}}health
+
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"q1234567q"
+}
+
+### Get the list of Billing, using advanced search
+POST {{host}}billings/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Billing
+POST {{host}}billings
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "startTime": "12.03.2021 00:00",
+    "endTime": "12.03.2021 00:00",
+    "amount": 1.0,
+    "rate": 1.0,
+    "timeUnit": 1,
+    "duration": 1,
+    "transactionId": 1,
+    "reservationId": 1,
+    "orderId": 1,
+}
+
+### Edit a Billing
+PUT {{host}}billings
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "startTime": "12.03.2021 00:00",
+    "endTime": "12.03.2021 00:00",
+    "amount": 1.0,
+    "rate": 1.0,
+    "timeUnit": 1,
+    "duration": 1,
+    "transactionId": 1,
+    "reservationId": 1,
+    "orderId": 1,
+}
+
+### Delete a Billing
+DELETE {{host}}billings/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+

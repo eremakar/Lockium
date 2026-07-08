@@ -10,6 +10,7 @@ namespace Lockium.Models.Dtos.Reservations
         /// Статус: 1 - активна, 2 - снята
         /// </summary>
         public int State { get; set; }
+        public DateTime CreatedTime { get; set; }
         /// <summary>
         /// Клиент
         /// </summary>

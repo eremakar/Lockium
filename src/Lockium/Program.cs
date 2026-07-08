@@ -27,9 +27,12 @@ builder.Services.Configure<LockBoardOptions>(builder.Configuration.GetSection(Lo
 builder.Services.AddSingleton<LockiumProtocolFileLogger>();
 builder.Services.AddSingleton<LockConnectionRegistry>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IOrderLockService, OrderLockService>();
 builder.Services.AddSingleton<ILockiumEventHandler, LockiumEventHandler>();
 builder.Services.AddSingleton<DoorStatusStore>();
 builder.Services.AddSingleton<LockiumTcpServer>();
+builder.Services.Configure<HostOptions>(options => options.ShutdownTimeout = TimeSpan.FromSeconds(15));
+builder.Services.AddHostedService<DeviceConnectionStateHostedService>();
 builder.Services.AddHostedService<LockBoardTcpHostedService>();
 builder.Services.AddControllers();
 
@@ -141,5 +144,6 @@ app.MigrateDb<LockiumDbContext>((context) =>
         });
 });
 
+ConsoleShutdownHooks.Register(app);
 
 app.Run();

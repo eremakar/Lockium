@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.JsonPatch;
-using System.Net.Mime;
+﻿using Core.Workflow;
 using Lockium.Models.Dtos.Reservations;
+using Lockium.Workflows.Reservations;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Lockium.Reservations.Controllers.Reservations
 {
@@ -11,6 +13,7 @@ namespace Lockium.Reservations.Controllers.Reservations
         /// Add new reservation
         /// </summary>
         /// <remarks>
+        /// Runs workflow Undefined → Active; reservation is created inside the Active step.
         /// </remarks>
         /// <response code="200">Unique registered id</response>
         /// <response code="400">Validation errors detected, operation denied</response>
@@ -18,12 +21,21 @@ namespace Lockium.Reservations.Controllers.Reservations
         [Route("/api/v1/reservations")]
         [HttpPost]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(StepResult), StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<object> AddAsync([FromBody] ReservationDto request)
         {
-            return await base.AddAsync(request);
+            var workflowResult = await RunTransitionAsync(
+                0,
+                (int)ReservationStateIds.Undefined,
+                (int)ReservationStateIds.Active,
+                request);
+
+            if (!workflowResult.Success)
+                return workflowResult;
+
+            return workflowResult.Data!;
         }
 
         /// <summary>

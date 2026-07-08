@@ -33,6 +33,7 @@ namespace Lockium.Mappings.Devices
             if (options.MapCollections)
             {
                 result.Channels = mapContext.ChannelMap.Map(source.Channels, options);
+                result.Logs = mapContext.DeviceLogMap.Map(source.Logs, options);
             }
 
             return result;
@@ -58,6 +59,7 @@ namespace Lockium.Mappings.Devices
             if (options.MapCollections)
             {
                 result.Channels = mapContext.ChannelMap.ReverseMap(source.Channels, options);
+                result.Logs = mapContext.DeviceLogMap.ReverseMap(source.Logs, options);
             }
 
             return result;

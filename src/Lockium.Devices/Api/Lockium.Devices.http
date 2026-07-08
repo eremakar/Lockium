@@ -1,5 +1,5 @@
-﻿@mainHost = http://localhost:20088/api/v1/
-@host = http://localhost:20089/api/v1/
+﻿@mainHost = http://92.38.48.35:5000/api/v1/
+@host = http://92.38.48.35:5001/api/v1/
 ### health
 GET {{host}}health
 
@@ -9,8 +9,8 @@ POST {{mainHost}}authenticate
 Content-Type: application/json
 
 {
-    "username":"user",
-    "password":"pass"
+    "username":"admin",
+    "password":"q1234567q"
 }
 
 ### Get the list of Device, using advanced search
@@ -109,6 +109,76 @@ Content-Type: application/json
 
 ### Delete a Channel
 DELETE {{host}}channels/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+
+### Get the list of DeviceLog, using advanced search
+POST {{host}}deviceLogs/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+    "filter": {
+        "deviceId": {
+            "operand1": 1,
+            "operator": "equals"
+        }
+    }
+}
+
+### Get DeviceLog by id
+GET {{host}}deviceLogs/1
+Authorization: Bearer {{loginReq.response.body.token}}
+
+### Add a DeviceLog
+POST {{host}}deviceLogs
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "time": "2026-05-21T12:00:00Z",
+    "recordType": 1,
+    "name": "channel.open",
+    "payload": { "channel": 1, "startedAt": "2026-05-21T12:00:00Z", "completedAt": "2026-05-21T12:00:00.120Z" },
+    "state": 1,
+    "errorMessage": null,
+    "deviceId": 1,
+    "channelId": 1,
+}
+
+### Edit a DeviceLog
+PUT {{host}}deviceLogs
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "time": "2026-05-21T12:00:00Z",
+    "recordType": 1,
+    "name": "channel.read_status",
+    "payload": { "channel": 1, "startedAt": "2026-05-21T12:00:00Z", "completedAt": "2026-05-21T12:00:00.050Z" },
+    "state": 1,
+    "errorMessage": null,
+    "deviceId": 1,
+    "channelId": 1,
+}
+
+### Delete a DeviceLog
+DELETE {{host}}deviceLogs/1
 Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 

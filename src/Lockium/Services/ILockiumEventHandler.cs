@@ -11,5 +11,14 @@ public interface ILockiumEventHandler
 
     Task OnDeviceSessionDisconnectedAsync(string protocolDeviceId, CancellationToken cancellationToken);
 
-    Task OnReadAllLockStatusCompletedAsync(string protocolDeviceId, AllLockStatusResult result, CancellationToken cancellationToken);
+    /// <summary>Старт или остановка хоста: все Device.ConnectionState → выключен.</summary>
+    Task EnsureAllDevicesDisconnectedAsync(DeviceHostLifecycle lifecycle, CancellationToken cancellationToken);
+
+    Task OnReadAllLockStatusCompletedAsync(
+        string protocolDeviceId,
+        byte boardNumber,
+        AllLockStatusResult result,
+        CancellationToken cancellationToken);
+
+    Task OnDoorStatusPostedAsync(PostedDoorStatus status, CancellationToken cancellationToken);
 }

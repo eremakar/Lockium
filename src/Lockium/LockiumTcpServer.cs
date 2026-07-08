@@ -19,6 +19,7 @@ public sealed class LockiumTcpServer(
 {
     private readonly LockBoardOptions _options = options.Value;
     private readonly ConcurrentDictionary<Guid, TcpClient> _activeClients = new();
+    private readonly ConcurrentDictionary<Guid, Task> _clientHandlers = new();
 
     public async Task RunAsync(CancellationToken cancellationToken)
     {
@@ -41,13 +42,49 @@ public sealed class LockiumTcpServer(
                     break;
                 }
 
-                _ = HandleClientAsync(client, cancellationToken);
+                var connectionId = Guid.NewGuid();
+                var handlerTask = HandleClientAsync(client, connectionId, cancellationToken);
+                _clientHandlers[connectionId] = handlerTask;
             }
         }
         finally
         {
             listener.Stop();
+
+            try
+            {
+                await lockiumEventHandler.EnsureAllDevicesDisconnectedAsync(DeviceHostLifecycle.Stop, CancellationToken.None)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Failed to mark all devices disconnected on application shutdown");
+            }
+
+            registry.Clear();
             DisconnectAllClients("application shutdown");
+            await WaitForClientHandlersAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async Task WaitForClientHandlersAsync()
+    {
+        var tasks = _clientHandlers.Values.ToArray();
+        if (tasks.Length == 0)
+            return;
+
+        try
+        {
+            await Task.WhenAll(tasks).WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None)
+                .ConfigureAwait(false);
+        }
+        catch (TimeoutException)
+        {
+            logger.LogWarning("Timed out waiting for {Count} TCP client handlers to finish", tasks.Length);
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "Error while waiting for TCP client handlers");
         }
     }
 
@@ -81,9 +118,8 @@ public sealed class LockiumTcpServer(
         }
     }
 
-    private async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
+    private async Task HandleClientAsync(TcpClient client, Guid connectionId, CancellationToken cancellationToken)
     {
-        var connectionId = Guid.NewGuid();
         _activeClients[connectionId] = client;
 
         var remote = client.Client.RemoteEndPoint?.ToString() ?? "?";
@@ -163,7 +199,10 @@ public sealed class LockiumTcpServer(
                 {
                     handshakeComplete = true;
                     byte status = HandleHeartbeat(frame);
-                    var response = LockiumProtocol.BuildHeartbeatResponse(frame.Instruction, status);
+                    string? frameDeviceId = LockiumProtocol.TryGetDeviceId(frame.Data);
+                    LogHeartbeatDecision(remote, registeredDeviceId, frame, status, frameDeviceId);
+
+                    var response = LockiumProtocol.BuildHeartbeatResponse(frame.Instruction, status, frame.boardNumber);
                     string note = $"heartbeat_ack status=0x{status:X2} ({(status == LockiumProtocol.StatusOk ? "OK" : "FAIL")})";
                     await session.WriteFrameAsync(response, cancellationToken, note);
 
@@ -173,6 +212,7 @@ public sealed class LockiumTcpServer(
                         registry,
                         registeredDeviceId,
                         remote,
+                        "heartbeat",
                         cancellationToken)
                         .ConfigureAwait(false);
                 }
@@ -180,7 +220,19 @@ public sealed class LockiumTcpServer(
                 {
                     handshakeComplete = true;
                     byte status = HandleRegister(frame);
-                    var response = LockiumProtocol.BuildRegisterResponse(frame.Instruction, status);
+                    string? frameDeviceId = LockiumProtocol.TryGetDeviceId(frame.Data);
+                    protocolLogger.LogTcpSession(
+                        "REGISTER",
+                        remote,
+                        frameDeviceId ?? registeredDeviceId,
+                        $"""
+                          ack_status: 0x{status:X2} ({(status == LockiumProtocol.StatusOk ? "OK" : "FAIL")})
+                          data_length: {frame.Data.Length} (need {LockiumProtocol.DeviceIdLength + LockiumProtocol.DeviceTypeLength + LockiumProtocol.CcidLength} for register)
+                          device_id_from_frame: {frameDeviceId ?? "(missing/invalid)"}
+                          session_registered_id: {registeredDeviceId ?? "(none)"}
+                          """.TrimEnd());
+
+                    var response = LockiumProtocol.BuildRegisterResponse(frame.Instruction, status, frame.boardNumber);
                     string note = $"register_ack status=0x{status:X2} ({(status == LockiumProtocol.StatusOk ? "OK" : "FAIL")})";
                     await session.WriteFrameAsync(response, cancellationToken, note);
 
@@ -193,6 +245,7 @@ public sealed class LockiumTcpServer(
                         registry,
                         registeredDeviceId,
                         remote,
+                        "register",
                         cancellationToken)
                         .ConfigureAwait(false);
                 }
@@ -210,16 +263,30 @@ public sealed class LockiumTcpServer(
         finally
         {
             _activeClients.TryRemove(connectionId, out _);
+            _clientHandlers.TryRemove(connectionId, out _);
 
             var disconnectedDeviceId = registeredDeviceId;
             if (disconnectedDeviceId is not null)
                 registry.Unregister(disconnectedDeviceId);
 
             if (disconnectedDeviceId is not null)
+            {
+                protocolLogger.LogTcpSession(
+                    "SESSION_DISCONNECT",
+                    remote,
+                    disconnectedDeviceId,
+                    $"""
+                      reason: {disconnectReason ?? "TCP client closed"}
+                      action: registry.Unregister + DB MarkDeviceDisconnected
+                      """);
                 await InvokeLockiumHandlerSafeAsync(
+                        "OnDeviceSessionDisconnected",
+                        remote,
+                        disconnectedDeviceId,
                         ct => lockiumEventHandler.OnDeviceSessionDisconnectedAsync(disconnectedDeviceId, ct),
                         CancellationToken.None)
                     .ConfigureAwait(false);
+            }
 
             try
             {
@@ -257,22 +324,79 @@ public sealed class LockiumTcpServer(
         LockConnectionRegistry registry,
         string? registeredDeviceId,
         string remote,
+        string trigger,
         CancellationToken cancellationToken)
     {
         string? deviceId = LockiumProtocol.TryGetDeviceId(data);
         if (deviceId is null)
+        {
+            protocolLogger.LogTcpSession(
+                "REGISTER_SKIPPED",
+                remote,
+                registeredDeviceId,
+                $"""
+                  trigger: {trigger}
+                  reason: no valid device id in frame (data_length={data.Length}, need>={LockiumProtocol.DeviceIdLength})
+                  session_registered_id: {registeredDeviceId ?? "(none)"}
+                  db_note: cannot update ConnectionState without valid device id
+                  """);
             return registeredDeviceId;
+        }
+
+        if (session != null && registry.Get(deviceId) == null)
+        {
+            registry.Register(deviceId, session);
+            protocolLogger.LogTcpSession(
+                "REGISTER_RESTORED",
+                remote,
+                registeredDeviceId,
+                $"""
+                  trigger: {trigger}
+                  reason: no valid device id in registry (data_length={data.Length}, need>={LockiumProtocol.DeviceIdLength})
+                  session_registered_id: {registeredDeviceId ?? "(none)"}
+                  """);
+        }
 
         session.SetDeviceId(deviceId);
 
         if (registeredDeviceId == deviceId)
-            return registeredDeviceId;
+        {
+            if (trigger != "heartbeat")
+            {
+                protocolLogger.LogTcpSession(
+                    "REGISTER_UNCHANGED",
+                    remote,
+                    deviceId,
+                    """
+                      action: session already bound to this device id
+                      db_note: register frame does not refresh ConnectionState
+                      """.TrimEnd());
+                return registeredDeviceId;
+            }
+
+            await RefreshConnectionStateFromHeartbeatAsync(remote, deviceId, cancellationToken)
+                .ConfigureAwait(false);
+            return deviceId;
+        }
 
         if (registeredDeviceId is not null)
         {
             string previousId = registeredDeviceId;
+            protocolLogger.LogTcpSession(
+                "DEVICE_ID_SWITCH",
+                remote,
+                deviceId,
+                $"""
+                  trigger: {trigger}
+                  previous_device_id: {previousId}
+                  new_device_id: {deviceId}
+                  action: unregister previous + DB disconnect previous, then register new
+                  """);
             registry.Unregister(previousId);
             await InvokeLockiumHandlerSafeAsync(
+                    "OnDeviceSessionDisconnected(device_switch)",
+                    remote,
+                    previousId,
                     ct => lockiumEventHandler.OnDeviceSessionDisconnectedAsync(previousId, ct),
                     cancellationToken)
                 .ConfigureAwait(false);
@@ -280,23 +404,105 @@ public sealed class LockiumTcpServer(
 
         registry.Register(deviceId, session);
         protocolLogger.LogDeviceRegistered(remote, deviceId);
-        await InvokeLockiumHandlerSafeAsync(
-                ct => lockiumEventHandler.OnDeviceSessionRegisteredAsync(deviceId, ct),
-                cancellationToken)
-            .ConfigureAwait(false);
+        protocolLogger.LogTcpSession(
+            "REGISTER_NEW",
+            remote,
+            deviceId,
+            $"""
+              trigger: {trigger}
+              previous_session_device_id: {registeredDeviceId ?? "(none)"}
+              action: registry.Register{(trigger == "heartbeat" ? " (DB refresh follows in heartbeat handler)" : " + DB UpsertDeviceConnected")}
+              """);
+
+        if (trigger != "heartbeat")
+        {
+            await InvokeLockiumHandlerSafeAsync(
+                    "OnDeviceSessionRegistered",
+                    remote,
+                    deviceId,
+                    ct => lockiumEventHandler.OnDeviceSessionRegisteredAsync(deviceId, ct),
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        if (trigger == "heartbeat")
+            await RefreshConnectionStateFromHeartbeatAsync(remote, deviceId, cancellationToken)
+                .ConfigureAwait(false);
 
         return deviceId;
     }
 
-    private async Task InvokeLockiumHandlerSafeAsync(Func<CancellationToken, Task> invoke, CancellationToken cancellationToken)
+    private Task RefreshConnectionStateFromHeartbeatAsync(
+        string remote,
+        string deviceId,
+        CancellationToken cancellationToken)
     {
+        protocolLogger.LogTcpSession(
+            "HEARTBEAT_DB_REFRESH",
+            remote,
+            deviceId,
+            "action: UpsertDeviceConnected (ConnectionState → ON)");
+        return InvokeLockiumHandlerSafeAsync(
+            "OnDeviceSessionRegistered(heartbeat)",
+            remote,
+            deviceId,
+            ct => lockiumEventHandler.OnDeviceSessionRegisteredAsync(deviceId, ct),
+            cancellationToken);
+    }
+
+    private void LogHeartbeatDecision(
+        string remote,
+        string? registeredDeviceId,
+        LockiumFrame frame,
+        byte status,
+        string? frameDeviceId)
+    {
+        bool willUpdateDb = frameDeviceId is not null;
+
+        protocolLogger.LogTcpSession(
+            "HEARTBEAT",
+            remote,
+            frameDeviceId ?? registeredDeviceId,
+            $"""
+              ack_status: 0x{status:X2} ({(status == LockiumProtocol.StatusOk ? "OK" : "FAIL")})
+              data_length: {frame.Data.Length} (need>={LockiumProtocol.DeviceIdLength} for OK ack)
+              device_id_from_frame: {frameDeviceId ?? "(missing/invalid)"}
+              session_registered_id: {registeredDeviceId ?? "(none)"}
+              will_update_db_connection_state: {willUpdateDb}
+              db_note: each heartbeat with valid device id writes ConnectionState=ON
+              """);
+    }
+
+    private async Task InvokeLockiumHandlerSafeAsync(
+        string operation,
+        string remote,
+        string? deviceId,
+        Func<CancellationToken, Task> invoke,
+        CancellationToken cancellationToken)
+    {
+        protocolLogger.LogTcpSession(
+            "HANDLER_BEGIN",
+            remote,
+            deviceId,
+            $"  handler: {operation}");
         try
         {
             await invoke(cancellationToken).ConfigureAwait(false);
+            protocolLogger.LogTcpSession(
+                "HANDLER_OK",
+                remote,
+                deviceId,
+                $"  handler: {operation}");
         }
         catch (Exception ex)
         {
-            logger.LogWarning(ex, "LockiumEventHandler (TCP) failed");
+            logger.LogWarning(ex, "LockiumEventHandler (TCP) {Operation} failed for {DeviceId}", operation, deviceId ?? "-");
+            protocolLogger.LogError(remote, deviceId, ex);
+            protocolLogger.LogTcpSession(
+                "HANDLER_FAILED",
+                remote,
+                deviceId,
+                $"  handler: {operation}\n  error: {ex.GetType().Name}: {ex.Message}");
         }
     }
 
@@ -309,7 +515,7 @@ public sealed class LockiumTcpServer(
         if (!header.AsSpan(0, LockiumProtocol.Magic.Length).SequenceEqual(LockiumProtocol.Magic))
             return null;
 
-        int totalLength = BinaryPrimitives.ReadUInt16LittleEndian(header.AsSpan(LockiumProtocol.Magic.Length));
+        int totalLength = header[LockiumProtocol.Magic.Length];
         if (totalLength < LockiumProtocol.MinFrameLength || totalLength > LockiumProtocol.MaxFrameLength)
             return null;
 
@@ -351,7 +557,12 @@ public sealed class LockiumTcpServer(
     private void LogFrame(string remote, LockiumFrame frame)
     {
         logger.LogInformation("[{Remote}] RX: {Frame}", remote, LockiumProtocol.FormatHex(frame.Raw));
-        logger.LogInformation("[{Remote}]   total={Total}, cmd=0x{Cmd:X2}", remote, frame.TotalLength, frame.Instruction);
+        logger.LogInformation(
+            "[{Remote}]   total={Total}, board={Board}, cmd=0x{Cmd:X2}",
+            remote,
+            frame.TotalLength,
+            frame.boardNumber,
+            frame.Instruction);
 
         string? detail = frame switch
         {
@@ -364,6 +575,7 @@ public sealed class LockiumTcpServer(
             _ when frame.IsDoorStatusPush => LockiumProtocol.FormatDoorStatusPush(frame.Data),
             _ when frame.IsKeepChannelOpen => LockiumProtocol.FormatKeepChannelOpenResponse(frame.Data),
             _ when frame.IsChannelClose => LockiumProtocol.FormatChannelCloseResponse(frame.Data),
+            _ when frame.IsReadIR => LockiumProtocol.FormatReadIrResponse(frame.Data),
             _ => frame.Data.Length > 0 ? LockiumProtocol.FormatHex(frame.Data) : null,
         };
 

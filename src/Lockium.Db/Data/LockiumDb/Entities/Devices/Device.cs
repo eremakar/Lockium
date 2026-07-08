@@ -17,5 +17,7 @@ namespace Lockium.Data.LockiumDb.Entities.Devices
 
         [InverseProperty("Device")]
         public List<Channel>? Channels { get; set; }
+        [InverseProperty("Device")]
+        public List<DeviceLog>? Logs { get; set; }
     }
 }

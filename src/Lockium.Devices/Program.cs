@@ -68,6 +68,7 @@ Example: 'Bearer 12345abcdef'"
 
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
     builder.Configuration.GetConnectionString("PostgresConnection");
+Console.WriteLine(connectionString);
 services.AddEntityFrameworkNpgsql().AddDbContext<LockiumDbContext>(options =>
 {
     options.UseNpgsql(connectionString,

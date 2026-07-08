@@ -57,7 +57,7 @@ public sealed class LockiumProtocolFileLogger : IDisposable
         {
             byte xorCalc = LockiumProtocol.ComputeXor(frameBytes.AsSpan(0, frameBytes.Length - 1));
             byte xorActual = frameBytes[^1];
-            sb.AppendLine($"  frame: total={frame.TotalLength}, instruction=0x{frame.Instruction:X2} ({LockiumProtocol.GetCommandName(frame.Instruction)})");
+            sb.AppendLine($"  frame: total={frame.TotalLength}, board={frame.boardNumber}, instruction=0x{frame.Instruction:X2} ({LockiumProtocol.GetCommandName(frame.Instruction)})");
             sb.AppendLine($"  checksum: calc=0x{xorCalc:X2}, wire=0x{xorActual:X2}, ok={xorCalc == xorActual}");
             sb.AppendLine($"  data ({frame.Data.Length} bytes): {LockiumProtocol.FormatHex(frame.Data)}");
             sb.AppendLine($"  payload: {LockiumProtocol.FormatCommandPayload(frame.Instruction, frame.Data)}");
@@ -167,6 +167,27 @@ public sealed class LockiumProtocolFileLogger : IDisposable
             deviceId,
             $"{ex.GetType().Name}: {ex.Message}\n  stack: {ex.StackTrace}");
 
+    /// <summary>TCP session lifecycle: registration, heartbeat decisions, handler invoke.</summary>
+    public void LogTcpSession(
+        string eventType,
+        string remoteEndPoint,
+        string? deviceId,
+        string details) =>
+        WriteBlock(eventType, remoteEndPoint, deviceId, details);
+
+    /// <summary>ConnectionState changes and related DB reads/writes.</summary>
+    public void LogDbConnection(
+        string? remoteEndPoint,
+        string? protocolDeviceId,
+        string operation,
+        string details)
+    {
+        var body = new StringBuilder();
+        body.AppendLine($"  operation: {operation}");
+        body.Append(details);
+        WriteBlock("DB_CONNECTION", remoteEndPoint ?? "-", protocolDeviceId, body.ToString().TrimEnd());
+    }
+
     public void Dispose()
     {
         lock (_sync)
@@ -182,6 +203,7 @@ public sealed class LockiumProtocolFileLogger : IDisposable
         sb.AppendLine($"  note: {note ?? "-"}");
         sb.AppendLine($"  raw ({frame.Raw.Length} bytes): {LockiumProtocol.FormatHex(frame.Raw)}");
         sb.AppendLine($"  total_length: {frame.TotalLength}");
+        sb.AppendLine($"  board_number: {frame.boardNumber}");
         sb.AppendLine($"  instruction: 0x{frame.Instruction:X2} — {LockiumProtocol.GetCommandName(frame.Instruction)}");
         sb.AppendLine($"  data ({frame.Data.Length} bytes): {LockiumProtocol.FormatHex(frame.Data)}");
         sb.AppendLine($"  payload: {LockiumProtocol.FormatCommandPayload(frame.Instruction, frame.Data)}");

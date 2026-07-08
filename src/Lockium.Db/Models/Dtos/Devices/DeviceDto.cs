@@ -17,5 +17,9 @@ namespace Lockium.Models.Dtos.Devices
         /// Ячейки
         /// </summary>
         public List<ChannelDto>? Channels { get; set; }
+        /// <summary>
+        /// Лог команд и событий
+        /// </summary>
+        public List<DeviceLogDto>? Logs { get; set; }
     }
 }

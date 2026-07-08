@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Lockium.Client.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "scalar/v1",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://0.0.0.0:5007"
+      },
+      "applicationUrl": "http://localhost:5007"
+    }
+  }
+}

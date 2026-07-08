@@ -2,6 +2,7 @@
 using Lockium.Mappings.Devices;
 using Lockium.Mappings.Reservations;
 using Lockium.Mappings.Orders;
+using Lockium.Workflows;
 
 namespace Lockium.Reservations.Helpers
 {
@@ -26,7 +27,7 @@ namespace Lockium.Reservations.Helpers
         {
             var services = source.Services;
 
-
+            services.AddLockiumReservationWorkflows();
         }
 
         public static void AddProviders(this WebApplicationBuilder source)

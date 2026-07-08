@@ -31,10 +31,12 @@ namespace Lockium.Mappings.Devices
                 result.LockState = source.LockState;
                 result.Attributes = source.Attributes;
                 result.DeviceId = source.DeviceId;
+                result.BoardId = source.BoardId;
             }
             if (options.MapObjects)
             {
                 result.Device = mapContext.DeviceMap.Map(source.Device, options);
+                result.Board = mapContext.BoardMap.Map(source.Board, options);
             }
             if (options.MapCollections)
             {
@@ -60,11 +62,14 @@ namespace Lockium.Mappings.Devices
                 if (source.Attributes != null)
                     result.Attributes = JsonConvert.SerializeObject(source.Attributes);
                 result.DeviceId = source.DeviceId;
+                result.BoardId = source.BoardId;
             }
             if (options.MapObjects)
             {
                 if (source.DeviceId == null)
                     result.Device = mapContext.DeviceMap.ReverseMap(source.Device, options);
+                if (source.BoardId == null)
+                    result.Board = mapContext.BoardMap.ReverseMap(source.Board, options);
             }
             if (options.MapCollections)
             {
@@ -88,6 +93,7 @@ namespace Lockium.Mappings.Devices
                 destination.LockState = source.LockState;
                 destination.Attributes = JsonHelper.NormalizeSafe(source.Attributes);
                 destination.DeviceId = source.DeviceId;
+                destination.BoardId = source.BoardId;
             }
             if (options.MapObjects)
             {

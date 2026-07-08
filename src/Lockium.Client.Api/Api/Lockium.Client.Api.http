@@ -1,0 +1,64 @@
+@mainHost = http://92.38.48.35:5000/api/v1/
+@host = http://92.38.48.35:5007/api/v1/
+
+### health
+GET {{host}}health
+
+### Get JWT access token
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"q1234567q"
+}
+
+### Search postamats (devices)
+POST {{host}}devices/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": { "skip": 0, "take": 10, "returnCount": true }
+}
+
+### Search cells (channels)
+POST {{host}}channels/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": { "skip": 0, "take": 10, "returnCount": true }
+}
+
+### Book cell (reservation)
+POST {{host}}reservations
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": 1,
+    "channelId": 3
+}
+
+### Create order
+POST {{host}}orders
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "clientId": 1,
+    "channelId": 3
+}
+
+### Run order workflow
+POST {{host}}orders/workflow/run
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "previousState": 1,
+    "nextState": 2
+}

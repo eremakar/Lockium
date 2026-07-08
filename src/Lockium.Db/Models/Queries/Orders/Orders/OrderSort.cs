@@ -10,10 +10,35 @@ namespace Lockium.Models.Queries.Orders.Orders
         /// Статус: 1 - создан, 2 - занят, 3 - выполнен
         /// </summary>
         public SortOperand? State { get; set; }
+        public SortOperand? CreatedTime { get; set; }
+        /// <summary>
+        /// PIN-код для получения посылки
+        /// </summary>
+        public SortOperand? PinCode { get; set; }
+        /// <summary>
+        /// Открытие для размещения уже использовано
+        /// </summary>
+        public SortOperand? DepositOpened { get; set; }
+        /// <summary>
+        /// Открытие для получения уже использовано
+        /// </summary>
+        public SortOperand? PickupOpened { get; set; }
+        /// <summary>
+        /// Номер отслеживания
+        /// </summary>
+        public SortOperand? TrackingNumber { get; set; }
+        /// <summary>
+        /// Срок хранения
+        /// </summary>
+        public SortOperand? ExpiresAt { get; set; }
         /// <summary>
         /// Клиент
         /// </summary>
         public SortOperand? ClientId { get; set; }
+        /// <summary>
+        /// Шкаф
+        /// </summary>
+        public SortOperand? LockerId { get; set; }
         /// <summary>
         /// Ячейка
         /// </summary>

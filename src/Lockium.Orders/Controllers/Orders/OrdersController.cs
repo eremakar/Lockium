@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using Microsoft.EntityFrameworkCore;
+using Lockium.Data.LockiumDb.Entities;
+using Lockium.Data.LockiumDb.Entities.Devices;
 using Lockium.Data.LockiumDb.Entities.Orders;
 using Lockium.Models.Dtos.Orders;
 using Lockium.Models.Queries.Orders.Orders;
 using Lockium.Mappings.Orders;
 using Lockium.Data.LockiumDb.DatabaseContext;
+using Lockium.Workflows.Orders;
 
 namespace Lockium.Orders.Controllers.Orders
 {
@@ -18,17 +21,56 @@ namespace Lockium.Orders.Controllers.Orders
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "SuperAdministrator,Administrator")]
     public partial class OrdersController : RestControllerBase2<Order, long, OrderDto, OrderQuery, OrderMap>
     {
+        private readonly IMicroserviceStateWorkflow stateWorkflow;
+
         public OrdersController(ILogger<RestServiceBase<Order, long>> logger,
             IDapperDbContext restDapperDb,
             LockiumDbContext restDb,
-            OrderMap orderMap)
+            OrderMap orderMap,
+            IMicroserviceStateWorkflow stateWorkflow)
             : base(logger,
                 restDapperDb,
                 restDb,
                 "Orders",
                 orderMap)
         {
+            this.stateWorkflow = stateWorkflow;
         }
+
+        private static IQueryable<Order> OrderQuery(IQueryable<Order> query) =>
+            query.Select(o => new Order
+            {
+                Id = o.Id,
+                State = o.State,
+                ClientId = o.ClientId,
+                ChannelId = o.ChannelId,
+                Client = o.Client == null
+                    ? null
+                    : new User
+                    {
+                        Id = o.Client.Id,
+                        UserName = o.Client.UserName,
+                    },
+                Channel = o.Channel == null
+                    ? null
+                    : new Channel
+                    {
+                        Id = o.Channel.Id,
+                        Number = o.Channel.Number,
+                        State = o.Channel.State,
+                        LockState = o.Channel.LockState,
+                        Attributes = o.Channel.Attributes,
+                        DeviceId = o.Channel.DeviceId,
+                        Device = o.Channel.Device == null
+                            ? null
+                            : new Device
+                            {
+                                Id = o.Channel.Device.Id,
+                                Name = o.Channel.Device.Name,
+                                ConnectionState = o.Channel.Device.ConnectionState,
+                            },
+                    },
+            });
 
         /// <summary>
         /// Search of Order using given query
@@ -46,9 +88,7 @@ namespace Lockium.Orders.Controllers.Orders
         [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<PagedList<OrderDto>> SearchAsync([FromBody] OrderQuery query)
         {
-            return await SearchUsingEfAsync(query, _ => _.
-                Include(_ => _.Client).
-                Include(_ => _.Channel));
+            return await SearchUsingEfAsync(query, OrderQuery);
         }
 
         /// <summary>
@@ -66,9 +106,7 @@ namespace Lockium.Orders.Controllers.Orders
         [Consumes(MediaTypeNames.Application.Json)]
         public override async Task<OrderDto> FindAsync([FromRoute] long key)
         {
-            return await FindUsingEfAsync(key, _ => _.
-                Include(_ => _.Client).
-                Include(_ => _.Channel));
+            return await FindUsingEfAsync(key, OrderQuery);
         }
 
     }

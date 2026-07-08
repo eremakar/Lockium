@@ -3,52 +3,28 @@
   "WorkspaceRootPath": "C:\\dev\\LockBoard\\Lockium\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.orders\\services\\microserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|solutionrelative:lockium.orders\\services\\microserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{350B3CA7-93C2-4927-A13D-592512738F7D}|Lockium\\Lockium.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium\\lockiumtcpserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{350B3CA7-93C2-4927-A13D-592512738F7D}|Lockium\\Lockium.csproj|solutionrelative:lockium\\lockiumtcpserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.orders\\services\\imicroserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|solutionrelative:lockium.orders\\services\\imicroserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{01CC4D2E-D543-4A79-B34F-5EB7BA6FB036}|Lockium.AppHost\\Lockium.AppHost.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.apphost\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{01CC4D2E-D543-4A79-B34F-5EB7BA6FB036}|Lockium.AppHost\\Lockium.AppHost.csproj|solutionrelative:lockium.apphost\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.orders\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|solutionrelative:lockium.orders\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{01CC4D2E-D543-4A79-B34F-5EB7BA6FB036}|Lockium.AppHost\\Lockium.AppHost.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.apphost\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01CC4D2E-D543-4A79-B34F-5EB7BA6FB036}|Lockium.AppHost\\Lockium.AppHost.csproj|solutionrelative:lockium.apphost\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.orders\\helpers\\startuphelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|solutionrelative:lockium.orders\\helpers\\startuphelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{01CC4D2E-D543-4A79-B34F-5EB7BA6FB036}|Lockium.AppHost\\Lockium.AppHost.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.apphost\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{01CC4D2E-D543-4A79-B34F-5EB7BA6FB036}|Lockium.AppHost\\Lockium.AppHost.csproj|solutionrelative:lockium.apphost\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.orders\\controllers\\orders\\orderscontroller.write.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|solutionrelative:lockium.orders\\controllers\\orders\\orderscontroller.write.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4707E439-79E0-9C8C-32F6-13110B3712C2}|Lockium.Devices\\Lockium.Devices.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.devices\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4707E439-79E0-9C8C-32F6-13110B3712C2}|Lockium.Devices\\Lockium.Devices.csproj|solutionrelative:lockium.devices\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.orders\\controllers\\orders\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EB98330C-D0A5-35D0-9D88-F688035143C3}|Lockium.Orders\\Lockium.Orders.csproj|solutionrelative:lockium.orders\\controllers\\orders\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.reservations\\services\\microserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|solutionrelative:lockium.reservations\\services\\microserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.reservations\\services\\imicroserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|solutionrelative:lockium.reservations\\services\\imicroserviceauthorizeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.reservations\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|solutionrelative:lockium.reservations\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.reservations\\helpers\\startuphelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|solutionrelative:lockium.reservations\\helpers\\startuphelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.reservations\\controllers\\reservations\\reservationscontroller.write.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|solutionrelative:lockium.reservations\\controllers\\reservations\\reservationscontroller.write.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.reservations\\controllers\\reservations\\reservationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6547279-E20F-D205-8295-3182DB2A48FA}|Lockium.Reservations\\Lockium.Reservations.csproj|solutionrelative:lockium.reservations\\controllers\\reservations\\reservationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4707E439-79E0-9C8C-32F6-13110B3712C2}|Lockium.Devices\\Lockium.Devices.csproj|c:\\dev\\lockboard\\lockium\\src\\lockium.devices\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4707E439-79E0-9C8C-32F6-13110B3712C2}|Lockium.Devices\\Lockium.Devices.csproj|solutionrelative:lockium.devices\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,8 +34,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 132,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LockiumTcpServer.cs",
+              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium\\LockiumTcpServer.cs",
+              "RelativeDocumentMoniker": "Lockium\\LockiumTcpServer.cs",
+              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium\\LockiumTcpServer.cs",
+              "RelativeToolTip": "Lockium\\LockiumTcpServer.cs",
+              "ViewState": "AgIAAD4BAAAAAAAAAAAwwGMBAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-23T13:32:42.404Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:198:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -590,159 +579,64 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MicroserviceAuthorizeService.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Services\\MicroserviceAuthorizeService.cs",
-              "RelativeDocumentMoniker": "Lockium.Orders\\Services\\MicroserviceAuthorizeService.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Services\\MicroserviceAuthorizeService.cs",
-              "RelativeToolTip": "Lockium.Orders\\Services\\MicroserviceAuthorizeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T19:03:27.446Z",
-              "EditorCaption": ""
+              "DocumentIndex": 3,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.AppHost\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "Lockium.AppHost\\appsettings.Development.json",
+              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.AppHost\\appsettings.Development.json",
+              "RelativeToolTip": "Lockium.AppHost\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-23T08:08:00.376Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "IMicroserviceAuthorizeService.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Services\\IMicroserviceAuthorizeService.cs",
-              "RelativeDocumentMoniker": "Lockium.Orders\\Services\\IMicroserviceAuthorizeService.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Services\\IMicroserviceAuthorizeService.cs",
-              "RelativeToolTip": "Lockium.Orders\\Services\\IMicroserviceAuthorizeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T19:02:37.275Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Program.cs",
-              "RelativeDocumentMoniker": "Lockium.Orders\\Program.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Program.cs",
-              "RelativeToolTip": "Lockium.Orders\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T19:01:50.743Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "StartupHelper.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Helpers\\StartupHelper.cs",
-              "RelativeDocumentMoniker": "Lockium.Orders\\Helpers\\StartupHelper.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Helpers\\StartupHelper.cs",
-              "RelativeToolTip": "Lockium.Orders\\Helpers\\StartupHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T19:00:56.489Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.AppHost\\appsettings.json",
+              "RelativeDocumentMoniker": "Lockium.AppHost\\appsettings.json",
+              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.AppHost\\appsettings.json",
+              "RelativeToolTip": "Lockium.AppHost\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-23T08:07:57.281Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "OrdersController.Write.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Controllers\\Orders\\OrdersController.Write.cs",
-              "RelativeDocumentMoniker": "Lockium.Orders\\Controllers\\Orders\\OrdersController.Write.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Controllers\\Orders\\OrdersController.Write.cs",
-              "RelativeToolTip": "Lockium.Orders\\Controllers\\Orders\\OrdersController.Write.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAhAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Devices\\Program.cs",
+              "RelativeDocumentMoniker": "Lockium.Devices\\Program.cs",
+              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Devices\\Program.cs",
+              "RelativeToolTip": "Lockium.Devices\\Program.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAAEQAAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T19:00:36.386Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-23T08:05:14.074Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "OrdersController.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Controllers\\Orders\\OrdersController.cs",
-              "RelativeDocumentMoniker": "Lockium.Orders\\Controllers\\Orders\\OrdersController.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Orders\\Controllers\\Orders\\OrdersController.cs",
-              "RelativeToolTip": "Lockium.Orders\\Controllers\\Orders\\OrdersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:56:57.059Z",
-              "EditorCaption": ""
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Devices\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Lockium.Devices\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Devices\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Lockium.Devices\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-23T08:03:24.573Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MicroserviceAuthorizeService.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Services\\MicroserviceAuthorizeService.cs",
-              "RelativeDocumentMoniker": "Lockium.Reservations\\Services\\MicroserviceAuthorizeService.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Services\\MicroserviceAuthorizeService.cs",
-              "RelativeToolTip": "Lockium.Reservations\\Services\\MicroserviceAuthorizeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:55:45.983Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IMicroserviceAuthorizeService.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Services\\IMicroserviceAuthorizeService.cs",
-              "RelativeDocumentMoniker": "Lockium.Reservations\\Services\\IMicroserviceAuthorizeService.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Services\\IMicroserviceAuthorizeService.cs",
-              "RelativeToolTip": "Lockium.Reservations\\Services\\IMicroserviceAuthorizeService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:46:57.891Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Program.cs",
-              "RelativeDocumentMoniker": "Lockium.Reservations\\Program.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Program.cs",
-              "RelativeToolTip": "Lockium.Reservations\\Program.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAcwBEAAAArAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.AppHost\\Program.cs",
+              "RelativeDocumentMoniker": "Lockium.AppHost\\Program.cs",
+              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.AppHost\\Program.cs",
+              "RelativeToolTip": "Lockium.AppHost\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:44:05.266Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "StartupHelper.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Helpers\\StartupHelper.cs",
-              "RelativeDocumentMoniker": "Lockium.Reservations\\Helpers\\StartupHelper.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Helpers\\StartupHelper.cs",
-              "RelativeToolTip": "Lockium.Reservations\\Helpers\\StartupHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:42:59.536Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ReservationsController.Write.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.Write.cs",
-              "RelativeDocumentMoniker": "Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.Write.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.Write.cs",
-              "RelativeToolTip": "Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.Write.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:42:41.073Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ReservationsController.cs",
-              "DocumentMoniker": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.cs",
-              "RelativeDocumentMoniker": "Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.cs",
-              "ToolTip": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.cs",
-              "RelativeToolTip": "Lockium.Reservations\\Controllers\\Reservations\\ReservationsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T18:40:22.632Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-23T07:55:58.739Z"
             }
           ]
         }

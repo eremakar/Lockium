@@ -21,7 +21,9 @@ namespace Lockium.Models.Dtos.Devices
         /// </summary>
         public object? Attributes { get; set; }
         public long? DeviceId { get; set; }
+        public long? BoardId { get; set; }
 
         public DeviceDto? Device { get; set; }
+        public BoardDto? Board { get; set; }
     }
 }

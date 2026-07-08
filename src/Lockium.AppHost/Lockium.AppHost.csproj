@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="13.3.5" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>9dad0e54-8376-4eb9-a9df-e1c42979453e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lockium\Lockium.csproj" />
+    <ProjectReference Include="..\Lockium.Billings\Lockium.Billings.csproj" />
+    <ProjectReference Include="..\Lockium.Client.Api\Lockium.Client.Api.csproj" />
+    <ProjectReference Include="..\Lockium.Devices\Lockium.Devices.csproj" />
+    <ProjectReference Include="..\Lockium.Lockers\Lockium.Lockers.csproj" />
+    <ProjectReference Include="..\Lockium.Orders\Lockium.Orders.csproj" />
+    <ProjectReference Include="..\Lockium.Reservations\Lockium.Reservations.csproj" />
+    <ProjectReference Include="..\Lockium.Transactions\Lockium.Transactions.csproj" />
+  </ItemGroup>
+
+</Project>

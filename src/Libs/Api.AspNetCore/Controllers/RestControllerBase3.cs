@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Data.Repository
@@ -79,7 +80,7 @@ namespace Data.Repository
         }
 
         protected virtual async Task<TDto> FindUsingEfAsync(TKey key,
-            Func<IQueryable<T>, IQueryable<T>> expression, Func<T, T> postFunc = null)
+            Func<IQueryable<T>, IQueryable<T>> expression, Func<T, T> postFunc = null, Func<List<T>, Task> apply = null)
         {
             return await RetryHelper.RetryDbAsAsync(async () =>
             {
@@ -93,6 +94,9 @@ namespace Data.Repository
 
                 if (item == null)
                     return null;
+
+                if (apply != null)
+                    await apply(new List<T> { item });
 
                 if (postFunc != null)
                 {

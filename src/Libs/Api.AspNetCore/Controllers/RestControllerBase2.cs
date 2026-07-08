@@ -110,7 +110,8 @@ namespace Data.Repository
         }
 
         protected virtual async Task<TDto> FindUsingEfAsync(TKey key,
-            Func<IQueryable<T>, IQueryable<T>> expression, Func<T, T> postFunc = null, MapOptions mapOptions = null, FilterOptions options = null)
+            Func<IQueryable<T>, IQueryable<T>> expression, Func<T, T> postFunc = null, MapOptions mapOptions = null, FilterOptions options = null,
+            Func<List<T>, Task> apply = null)
         {
             return await RetryHelper.RetryDbAsAsync(async () =>
             {
@@ -127,6 +128,9 @@ namespace Data.Repository
 
                 if (item == null)
                     return null;
+
+                if (apply != null)
+                    await apply(new List<T> { item });
 
                 if (postFunc != null)
                 {

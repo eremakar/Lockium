@@ -1,0 +1,4 @@
+C:\dev\LockBoard\Lockium\src\Lockium.Reservations\obj\Debug\net9.0\staticwebassets.build.json
+C:\dev\LockBoard\Lockium\src\Lockium.Reservations\obj\Debug\net9.0\staticwebassets.build.json
+C:\dev\LockBoard\Lockium\src\Lockium.Reservations\obj\Debug\net9.0\staticwebassets.build.json
+C:\dev\LockBoard\Lockium\src\Lockium.Reservations\obj\Debug\net9.0\staticwebassets.build.json

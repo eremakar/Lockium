@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net9.0": {
       "Dapper/2.0.90": {
@@ -6165,28 +6165,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\DOCX Editor SDK\\33.1.44\\ToolboxNuGetPackages": {}
+    "C:\\Users\\S1908\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\Lockium.Db.csproj",
+      "projectUniqueName": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\Lockium.Db.csproj",
       "projectName": "Lockium.Db",
-      "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\Lockium.Db.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "c:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\obj\\",
+      "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\Lockium.Db.csproj",
+      "packagesPath": "C:\\Users\\S1908\\.nuget\\packages\\",
+      "outputPath": "C:\\dev\\LockBoard\\Lockium\\src\\Lockium.Db\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\DOCX Editor SDK\\33.1.44\\ToolboxNuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\S1908\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Syncfusion Toolbox for DOCX Editor SDK.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -6197,16 +6194,17 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "projectReferences": {
-            "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj": {
-              "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj"
+            "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj": {
+              "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Api.AspNetCore\\Api.AspNetCore.csproj"
             },
-            "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj": {
-              "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj"
+            "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj": {
+              "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Mapping\\Data.Mapping.csproj"
             },
-            "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj": {
-              "projectPath": "c:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj"
+            "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj": {
+              "projectPath": "C:\\dev\\LockBoard\\Lockium\\src\\Libs\\Data.Repository\\Data.Repository.csproj"
             }
           }
         }
@@ -6221,10 +6219,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net9.0": {
+        "framework": "net9.0",
         "targetAlias": "net9.0",
         "imports": [
           "net461",
@@ -6242,7 +6241,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

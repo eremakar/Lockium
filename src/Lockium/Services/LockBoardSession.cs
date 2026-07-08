@@ -11,6 +11,7 @@ public sealed class LockBoardSession(
     string remoteEndPoint,
     IOptions<LockBoardOptions> options,
     DoorStatusStore doorStatusStore,
+    ILockiumEventHandler lockiumEventHandler,
     LockiumProtocolFileLogger protocolLogger,
     ILogger<LockBoardSession> logger)
 {
@@ -42,10 +43,11 @@ public sealed class LockBoardSession(
     }
 
     public async Task<ChannelCloseResult> CloseChannelAsync(
+        byte boardNumber,
         byte channel,
         CancellationToken cancellationToken)
     {
-        var command = LockiumProtocol.BuildChannelCloseCommand(channel);
+        var command = LockiumProtocol.BuildChannelCloseCommand(channel, boardNumber);
         var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdChannelClose, cancellationToken);
 
         byte status = frame.Data.Length > 0 ? frame.Data[0] : (byte)0;
@@ -59,10 +61,11 @@ public sealed class LockBoardSession(
     }
 
     public async Task<KeepChannelOpenResult> KeepChannelOpenAsync(
+        byte boardNumber,
         byte channel,
         CancellationToken cancellationToken)
     {
-        var command = LockiumProtocol.BuildKeepChannelOpenCommand(channel);
+        var command = LockiumProtocol.BuildKeepChannelOpenCommand(channel, boardNumber);
         var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdKeepChannelOpen, cancellationToken);
 
         byte status = frame.Data.Length > 0 ? frame.Data[0] : (byte)0;
@@ -76,13 +79,14 @@ public sealed class LockBoardSession(
     }
 
     public async Task<OpenFewLocksResult> OpenFewChannelLocksAsync(
+        byte boardNumber,
         IReadOnlyList<byte> channels,
         CancellationToken cancellationToken)
     {
         if (channels.Count == 0)
             throw new ArgumentException("At least one channel is required.", nameof(channels));
 
-        var command = LockiumProtocol.BuildOpenFewLocksCommand(channels.ToArray());
+        var command = LockiumProtocol.BuildOpenFewLocksCommand(channels.ToArray(), boardNumber);
         var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdOpenFewLocks, cancellationToken);
 
         byte status = frame.Data.Length > 0 ? frame.Data[0] : (byte)0;
@@ -94,23 +98,25 @@ public sealed class LockBoardSession(
     }
 
     public async Task<OpenLockResult> OpenSingleChannelLockAsync(
+        byte boardNumber,
         byte channel,
         string? orderNumber,
         CancellationToken cancellationToken)
     {
+        orderNumber = LockiumProtocol.SanitizeAsciiField(orderNumber);
         byte[] orderBytes = string.IsNullOrEmpty(orderNumber)
             ? []
             : System.Text.Encoding.ASCII.GetBytes(orderNumber);
 
-        var command = LockiumProtocol.BuildOpenLockCommand(channel, orderBytes);
+        var command = LockiumProtocol.BuildOpenLockCommand(channel, orderBytes, boardNumber);
         var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdOpenLock, cancellationToken);
         RecordDoorStatusFromOpenLock(frame);
 
         byte lockStatus = frame.Data.Length > 0 ? frame.Data[0] : (byte)0;
         byte respChannel = frame.Data.Length > 1 ? frame.Data[1] : channel;
         string? respOrder = frame.Data.Length > 2
-            ? System.Text.Encoding.ASCII.GetString(frame.Data[2..])
-            : orderNumber;
+            ? LockiumProtocol.DecodeAsciiBytesOrNull(frame.Data[2..])
+            : LockiumProtocol.SanitizeAsciiField(orderNumber);
 
         return new OpenLockResult(
             lockStatus,
@@ -120,11 +126,27 @@ public sealed class LockBoardSession(
             LockiumProtocol.FormatHex(frame.Raw));
     }
 
+    public async Task<ReadIrResult> ReadIrAsync(
+        byte boardNumber,
+        byte irId,
+        CancellationToken cancellationToken)
+    {
+        var command = LockiumProtocol.BuildReadIrCommand(irId, boardNumber);
+        var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdReadIR, cancellationToken);
+
+        return new ReadIrResult(
+            frame.Data.Length > 0 ? frame.Data[0] : (byte)0,
+            frame.Data.Length > 1 ? frame.Data[1] : irId,
+            frame.Data.Length > 2 ? frame.Data[2] : (byte)0,
+            LockiumProtocol.FormatHex(frame.Raw));
+    }
+
     public async Task<SingleLockStatusResult> ReadSingleLockStatusAsync(
+        byte boardNumber,
         byte channel,
         CancellationToken cancellationToken)
     {
-        var command = LockiumProtocol.BuildReadSingleLockStatusCommand(channel);
+        var command = LockiumProtocol.BuildReadSingleLockStatusCommand(channel, boardNumber);
         var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdReadSingleLockStatus, cancellationToken);
         RecordDoorStatusFromReadSingle(frame);
 
@@ -137,9 +159,11 @@ public sealed class LockBoardSession(
             LockiumProtocol.FormatHex(frame.Raw));
     }
 
-    public async Task<AllLockStatusResult> ReadAllChannelLockStatusAsync(CancellationToken cancellationToken)
+    public async Task<AllLockStatusResult> ReadAllChannelLockStatusAsync(
+        byte boardNumber,
+        CancellationToken cancellationToken)
     {
-        var command = LockiumProtocol.BuildReadAllLockStatusCommand();
+        var command = LockiumProtocol.BuildReadAllLockStatusCommand(boardNumber);
         var frame = await SendAndWaitAsync(command, LockiumProtocol.CmdReadAllLockStatus, cancellationToken);
         RecordDoorStatusFromReadAll(frame);
 
@@ -259,13 +283,37 @@ public sealed class LockBoardSession(
 
     private void PostStatus(string deviceId, byte channel, byte lockStatus, byte command, byte[] raw)
     {
-        doorStatusStore.Post(new PostedDoorStatus(
+        var status = new PostedDoorStatus(
             deviceId,
             channel,
             lockStatus,
             LockiumProtocol.FormatLockStatus(lockStatus),
             command,
             DateTimeOffset.UtcNow,
-            LockiumProtocol.FormatHex(raw)));
+            LockiumProtocol.FormatHex(raw));
+
+        doorStatusStore.Post(status);
+
+        if (command != LockiumProtocol.CmdReadAllLockStatus)
+            _ = SyncDoorStatusSafeAsync(status);
+    }
+
+    private async Task SyncDoorStatusSafeAsync(PostedDoorStatus status)
+    {
+        try
+        {
+            await lockiumEventHandler
+                .OnDoorStatusPostedAsync(status, CancellationToken.None)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(
+                ex,
+                "[{Remote}] door-status DB sync failed for {DeviceId} ch {Channel}",
+                remoteEndPoint,
+                status.DeviceId,
+                status.Channel);
+        }
     }
 }

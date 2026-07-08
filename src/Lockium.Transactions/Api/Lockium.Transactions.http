@@ -1,0 +1,71 @@
+﻿@mainHost = http://92.38.48.35:5000/api/v1/
+@host = http://92.38.48.35:5004/api/v1/
+### health
+GET {{host}}health
+
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"q1234567q"
+}
+
+### Get the list of Transaction, using advanced search
+POST {{host}}transactions/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Transaction
+POST {{host}}transactions
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "state": 1,
+    "sourceType": 1,
+    "createdTime": "12.03.2021 00:00",
+    "clientId": 1,
+    "reservationId": 1,
+    "orderId": 1,
+}
+
+### Edit a Transaction
+PUT {{host}}transactions
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "state": 1,
+    "sourceType": 1,
+    "createdTime": "12.03.2021 00:00",
+    "clientId": 1,
+    "reservationId": 1,
+    "orderId": 1,
+}
+
+### Delete a Transaction
+DELETE {{host}}transactions/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+

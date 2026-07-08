@@ -1,12 +1,13 @@
 {
-"profiles": {
-"Lockium.Reservations": {
-"commandName": "Project",
-"launchBrowser": true,
-"environmentVariables": {
-"ASPNETCORE_ENVIRONMENT": "Development"
-},
-"applicationUrl": "https://localhost:453;http://localhost:20090"
-}
-}
+  "profiles": {
+    "Lockium.Reservations": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://0.0.0.0:5002"
+      },
+      "applicationUrl": "http://localhost:5002"
+    }
+  }
 }

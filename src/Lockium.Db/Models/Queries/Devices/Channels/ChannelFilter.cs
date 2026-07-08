@@ -23,5 +23,6 @@ namespace Lockium.Models.Queries.Devices.Channels
         /// </summary>
         public FilterOperand<object>? Attributes { get; set; }
         public FilterOperand<long?>? DeviceId { get; set; }
+        public FilterOperand<long?>? BoardId { get; set; }
     }
 }

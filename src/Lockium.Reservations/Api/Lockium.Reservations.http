@@ -1,5 +1,5 @@
-﻿@mainHost = http://localhost:20088/api/v1/
-@host = http://localhost:20090/api/v1/
+﻿@mainHost = http://92.38.48.35:5000/api/v1/
+@host = http://92.38.48.35:5002/api/v1/
 ### health
 GET {{host}}health
 
@@ -9,8 +9,8 @@ POST {{mainHost}}authenticate
 Content-Type: application/json
 
 {
-    "username":"user",
-    "password":"pass"
+    "username":"admin",
+    "password":"q1234567q"
 }
 
 ### Get the list of Reservation, using advanced search
@@ -32,15 +32,25 @@ Content-Type: application/json
     },
 }
 
-### Add a Reservation
+### Add a Reservation (Undefined -> Active via workflow)
 POST {{host}}reservations
 Authorization: Bearer {{loginReq.response.body.token}}
 Content-Type: application/json
 
 {
-    "state": 1,
     "clientId": 1,
-    "channelId": 1,
+    "channelId": 3,
+}
+
+### Run reservation workflow transition
+POST {{host}}reservations/workflow/run
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "previousState": 1,
+    "nextState": 2,
 }
 
 ### Edit a Reservation

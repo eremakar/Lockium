@@ -1,5 +1,7 @@
 ﻿using Data.Mapping;
+using Data.Repository.Helpers;
 using Lockium.Data.LockiumDb.Entities.Reservations;
+using Lockium.Models.Dtos;
 using Lockium.Models.Dtos.Reservations;
 
 namespace Lockium.Mappings.Reservations
@@ -25,12 +27,21 @@ namespace Lockium.Mappings.Reservations
             if (options.MapProperties)
             {
                 result.State = source.State;
+                result.CreatedTime = source.CreatedTime;
                 result.ClientId = source.ClientId;
                 result.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)
             {
-                result.Client = mapContext.UserMap.Map(source.Client, options);
+                if (source.Client != null)
+                {
+                    result.Client = new UserDto
+                    {
+                        Id = source.Client.Id,
+                        UserName = source.Client.UserName,
+                    };
+                }
+
                 result.Channel = mapContext.ChannelMap.Map(source.Channel, options);
             }
             if (options.MapCollections)
@@ -52,6 +63,7 @@ namespace Lockium.Mappings.Reservations
             if (options.MapProperties)
             {
                 result.State = source.State;
+                result.CreatedTime = source.CreatedTime.ToUtc();
                 result.ClientId = source.ClientId;
                 result.ChannelId = source.ChannelId;
             }

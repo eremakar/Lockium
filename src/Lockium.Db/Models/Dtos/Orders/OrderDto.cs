@@ -1,4 +1,5 @@
 ﻿using Lockium.Models.Dtos;
+using Lockium.Models.Dtos.Lockers;
 using Lockium.Models.Dtos.Devices;
 
 namespace Lockium.Models.Dtos.Orders
@@ -10,10 +11,35 @@ namespace Lockium.Models.Dtos.Orders
         /// Статус: 1 - создан, 2 - занят, 3 - выполнен
         /// </summary>
         public int State { get; set; }
+        public DateTime CreatedTime { get; set; }
+        /// <summary>
+        /// PIN-код для получения посылки
+        /// </summary>
+        public string? PinCode { get; set; }
+        /// <summary>
+        /// Открытие для размещения уже использовано
+        /// </summary>
+        public bool DepositOpened { get; set; }
+        /// <summary>
+        /// Открытие для получения уже использовано
+        /// </summary>
+        public bool PickupOpened { get; set; }
+        /// <summary>
+        /// Номер отслеживания
+        /// </summary>
+        public string? TrackingNumber { get; set; }
+        /// <summary>
+        /// Срок хранения
+        /// </summary>
+        public DateTime ExpiresAt { get; set; }
         /// <summary>
         /// Клиент
         /// </summary>
         public int? ClientId { get; set; }
+        /// <summary>
+        /// Шкаф
+        /// </summary>
+        public long? LockerId { get; set; }
         /// <summary>
         /// Ячейка
         /// </summary>
@@ -23,6 +49,10 @@ namespace Lockium.Models.Dtos.Orders
         /// Клиент
         /// </summary>
         public UserDto? Client { get; set; }
+        /// <summary>
+        /// Шкаф
+        /// </summary>
+        public LockerDto? Locker { get; set; }
         /// <summary>
         /// Ячейка
         /// </summary>

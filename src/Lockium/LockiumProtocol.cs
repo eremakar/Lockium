@@ -17,6 +17,7 @@ public static class LockiumProtocol
     public const byte CmdOpenFewLocks = 0x87;
     public const byte CmdKeepChannelOpen = 0x88;
     public const byte CmdChannelClose = 0x89;
+    public const byte CmdReadIR = 0x73;
 
     public const byte StatusOk = 0x00;
     public const byte StatusFail = 0xFF;
@@ -31,7 +32,7 @@ public static class LockiumProtocol
     public const int DeviceTypeLength = 2;
     public const int CcidLength = 20;
 
-    public const int FrameHeaderLength = 4 + 2;
+    public const int FrameHeaderLength = 4 + 1 + 1; // magic + length + board
     public const int MinFrameLength = FrameHeaderLength + 2;
     public const int MaxFrameLength = 2048;
 
@@ -53,7 +54,7 @@ public static class LockiumProtocol
         if (!buffer.StartsWith(Magic))
             return false;
 
-        int totalLength = BinaryPrimitives.ReadUInt16LittleEndian(buffer[Magic.Length..]);
+        int totalLength = buffer[Magic.Length];
         if (totalLength < Magic.Length + 2 + 2 || buffer.Length < totalLength)
             return false;
 
@@ -65,44 +66,53 @@ public static class LockiumProtocol
         if (body.Length == 0)
             return false;
 
+        var boardNumber = buffer[Magic.Length + 1];
+
         byte instruction = body[0];
         byte[] data = body.Length > 1 ? body[1..].ToArray() : [];
 
-        frame = new LockiumFrame((ushort)totalLength, instruction, data, buffer.ToArray());
+        frame = new LockiumFrame((ushort)totalLength, boardNumber, instruction, data, buffer.ToArray());
         return true;
     }
 
-    public static byte[] BuildFrame(byte instruction, ReadOnlySpan<byte> data)
+    public static byte[] BuildFrame(byte instruction, ReadOnlySpan<byte> data, byte boardNumber = 0)
     {
-        int totalLength = Magic.Length + 2 + 1 + data.Length + 1;
+        int totalLength = Magic.Length + 1 + 1 + 1 + data.Length + 1;
+        if (totalLength > byte.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(data), totalLength, "Frame exceeds single-byte length field.");
+
         var frame = new byte[totalLength];
         Magic.CopyTo(frame);
-        BinaryPrimitives.WriteUInt16LittleEndian(frame.AsSpan(4, 2), (ushort)totalLength);
+        frame[Magic.Length] = (byte)totalLength;
+        frame[Magic.Length + 1] = boardNumber;
         frame[6] = instruction;
         data.CopyTo(frame.AsSpan(7));
         frame[^1] = ComputeXor(frame.AsSpan(0, totalLength - 1));
         return frame;
     }
 
-    public static byte[] BuildRegisterResponse(byte instruction, byte status) =>
-        BuildFrame(instruction, [status]);
+    public static byte[] BuildRegisterResponse(byte instruction, byte status, byte boardNumber = 0) =>
+        BuildFrame(instruction, [status], boardNumber);
 
-    public static byte[] BuildHeartbeatResponse(byte instruction, byte status) =>
-        BuildFrame(instruction, [status]);
+    public static byte[] BuildHeartbeatResponse(byte instruction, byte status, byte boardNumber = 0) =>
+        BuildFrame(instruction, [status], boardNumber);
 
-    public static byte[] BuildKeepChannelOpenCommand(byte channel) =>
-        BuildFrame(CmdKeepChannelOpen, [channel]);
+    public static byte[] BuildKeepChannelOpenCommand(byte channel, byte boardNumber = 0) =>
+        BuildFrame(CmdKeepChannelOpen, [channel], boardNumber);
 
-    public static byte[] BuildChannelCloseCommand(byte channel) =>
-        BuildFrame(CmdChannelClose, [channel]);
+    public static byte[] BuildChannelCloseCommand(byte channel, byte boardNumber = 0) =>
+        BuildFrame(CmdChannelClose, [channel], boardNumber);
 
-    public static byte[] BuildReadSingleLockStatusCommand(byte channel) =>
-        BuildFrame(CmdReadSingleLockStatus, [channel]);
+    public static byte[] BuildReadSingleLockStatusCommand(byte channel, byte boardNumber = 0) =>
+        BuildFrame(CmdReadSingleLockStatus, [channel], boardNumber);
 
-    public static byte[] BuildReadAllLockStatusCommand() =>
-        BuildFrame(CmdReadAllLockStatus, []);
+    public static byte[] BuildReadAllLockStatusCommand(byte boardNumber = 0) =>
+        BuildFrame(CmdReadAllLockStatus, [], boardNumber);
 
-    public static byte[] BuildOpenFewLocksCommand(ReadOnlySpan<byte> channels)
+    public static byte[] BuildReadIrCommand(byte irId, byte boardNumber = 0) =>
+        BuildFrame(CmdReadIR, [irId], boardNumber);
+
+    public static byte[] BuildOpenFewLocksCommand(ReadOnlySpan<byte> channels, byte boardNumber = 0)
     {
         if (channels.IsEmpty)
             throw new ArgumentException("At least one channel is required.", nameof(channels));
@@ -113,10 +123,10 @@ public static class LockiumProtocol
         var data = new byte[1 + channels.Length];
         data[0] = (byte)channels.Length;
         channels.CopyTo(data.AsSpan(1));
-        return BuildFrame(CmdOpenFewLocks, data);
+        return BuildFrame(CmdOpenFewLocks, data, boardNumber);
     }
 
-    public static byte[] BuildOpenLockCommand(byte channel, ReadOnlySpan<byte> orderNumber = default)
+    public static byte[] BuildOpenLockCommand(byte channel, ReadOnlySpan<byte> orderNumber = default, byte boardNumber = 0)
     {
         if (orderNumber.Length > MaxOrderNumberLength)
             throw new ArgumentOutOfRangeException(nameof(orderNumber));
@@ -124,7 +134,7 @@ public static class LockiumProtocol
         var data = new byte[1 + orderNumber.Length];
         data[0] = channel;
         orderNumber.CopyTo(data.AsSpan(1));
-        return BuildFrame(CmdOpenLock, data);
+        return BuildFrame(CmdOpenLock, data, boardNumber);
     }
 
     public static string GetCommandName(byte instruction) =>
@@ -139,6 +149,7 @@ public static class LockiumProtocol
             CmdOpenFewLocks => "OpenFewLocks (0x87)",
             CmdKeepChannelOpen => "KeepChannelOpen (0x88)",
             CmdChannelClose => "ChannelClose (0x89)",
+            CmdReadIR => "ReadIR (0x73)",
             _ => $"Unknown (0x{instruction:X2})",
         };
 
@@ -154,6 +165,7 @@ public static class LockiumProtocol
             _ when frame.IsDoorStatusPush => FormatDoorStatusPush(frame.Data),
             _ when frame.IsKeepChannelOpen => FormatKeepChannelOpenResponse(frame.Data),
             _ when frame.IsChannelClose => FormatChannelCloseResponse(frame.Data),
+            _ when frame.IsReadIR => FormatReadIrResponse(frame.Data),
             _ => frame.Data.Length > 0 ? FormatHex(frame.Data) : "(no data)",
         };
 
@@ -162,8 +174,10 @@ public static class LockiumProtocol
         {
             CmdOpenLock when data.Length > 0 =>
                 $"channel={data[0]}" + (data.Length > 1
-                    ? $", order={Encoding.ASCII.GetString(data[1..])}"
+                    ? $", order={DecodeAsciiBytes(data[1..])}"
                     : ""),
+            CmdReadIR when data.Length > 0 =>
+                $"irId={data[0]}",
             CmdReadSingleLockStatus or CmdKeepChannelOpen or CmdChannelClose when data.Length > 0 =>
                 $"channel={data[0]}",
             CmdOpenFewLocks when data.Length > 0 =>
@@ -254,7 +268,29 @@ public static class LockiumProtocol
         if (data.Length < DeviceIdLength)
             return null;
 
-        return Encoding.ASCII.GetString(data[..DeviceIdLength]).TrimEnd('\0', ' ');
+        return DecodeAsciiBytesOrNull(data[..DeviceIdLength]);
+    }
+
+    /// <summary>Fixed-width ASCII field from device (order number, device id, etc.).</summary>
+    public static string DecodeAsciiBytes(ReadOnlySpan<byte> data) =>
+        data.IsEmpty ? string.Empty : Encoding.ASCII.GetString(data).TrimEnd('\0', ' ');
+
+    public static string? DecodeAsciiBytesOrNull(ReadOnlySpan<byte> data)
+    {
+        if (data.IsEmpty)
+            return null;
+
+        var text = DecodeAsciiBytes(data);
+        return text.Length == 0 ? null : text;
+    }
+
+    public static string? SanitizeAsciiField(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        var text = value.TrimEnd('\0', ' ');
+        return text.Length == 0 ? null : text;
     }
 
     public static string FormatDoorStatusPush(ReadOnlySpan<byte> data)
@@ -263,6 +299,19 @@ public static class LockiumProtocol
             return FormatHex(data);
 
         return $"channel={data[0]}, lock={FormatLockStatus(data[1])}";
+    }
+
+    public static string FormatReadIrResponse(ReadOnlySpan<byte> data)
+    {
+        if (data.Length < 3)
+            return FormatHex(data);
+
+        byte status = data[0];
+        byte irId = data[1];
+        byte irValue = data[2];
+        string statusText = status == StatusOk ? "OK" : $"0x{status:X2}";
+        string extra = data.Length > 3 ? $", extra={FormatHex(data[3..])}" : "";
+        return $"status={statusText}, irId={irId}, value=0x{irValue:X2}{extra}";
     }
 
     public static string FormatReadSingleLockStatusResponse(ReadOnlySpan<byte> data)
@@ -327,7 +376,7 @@ public static class LockiumProtocol
 
         string orderText = order.IsEmpty
             ? "(empty)"
-            : Encoding.ASCII.GetString(order);
+            : DecodeAsciiBytes(order);
 
         return $"lock={lockText}, channel={channel}, order={orderText}";
     }
@@ -335,6 +384,7 @@ public static class LockiumProtocol
 
 public readonly record struct LockiumFrame(
     ushort TotalLength,
+    byte boardNumber,
     byte Instruction,
     byte[] Data,
     byte[] Raw)
@@ -348,4 +398,5 @@ public readonly record struct LockiumFrame(
     public bool IsOpenFewLocks => Instruction == LockiumProtocol.CmdOpenFewLocks;
     public bool IsKeepChannelOpen => Instruction == LockiumProtocol.CmdKeepChannelOpen;
     public bool IsChannelClose => Instruction == LockiumProtocol.CmdChannelClose;
+    public bool IsReadIR => Instruction == LockiumProtocol.CmdReadIR;
 }

@@ -17,4 +17,6 @@ public sealed class LockConnectionRegistry
 
     public IReadOnlyList<string> GetConnectedDeviceIds() =>
         _sessions.Keys.OrderBy(id => id).ToList();
+
+    public void Clear() => _sessions.Clear();
 }

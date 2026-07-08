@@ -1,0 +1,124 @@
+﻿@mainHost = http://92.38.48.35:5000/api/v1/
+@host = http://92.38.48.35:5006/api/v1/
+### health
+GET {{host}}health
+
+### Get JWT access token by password and user login
+# @name loginReq
+POST {{mainHost}}authenticate
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"q1234567q"
+}
+
+### Get the list of Locker, using advanced search
+POST {{host}}lockers/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Locker
+POST {{host}}lockers
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "name": "abc",
+    "address": "abc",
+    "type": 1,
+}
+
+### Create locker and cells from device channels
+POST {{host}}lockers/device/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+### Edit a Locker
+PUT {{host}}lockers
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "abc",
+    "address": "abc",
+    "type": 1,
+}
+
+### Delete a Locker
+DELETE {{host}}lockers/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+
+### Get the list of Cell, using advanced search
+POST {{host}}cells/search
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "paging": {
+        "skip": 0,
+        "take": 10,
+        "returnCount": true
+    },
+    "sort": {
+        "id": {
+            "operator": "asc",
+            "ordinal": 0,
+        },
+    },
+}
+
+### Add a Cell
+POST {{host}}cells
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "number": "abc",
+    "state": 1,
+    "attributes": null,
+    "lockerId": 1,
+    "channelId": 1,
+}
+
+### Edit a Cell
+PUT {{host}}cells
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "number": "abc",
+    "state": 1,
+    "attributes": null,
+    "lockerId": 1,
+    "channelId": 1,
+}
+
+### Delete a Cell
+DELETE {{host}}cells/1
+Authorization: Bearer {{loginReq.response.body.token}}
+Content-Type: application/json
+
+{
+}
+

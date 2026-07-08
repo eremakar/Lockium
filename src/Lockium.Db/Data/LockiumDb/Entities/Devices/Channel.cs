@@ -25,7 +25,9 @@ namespace Lockium.Data.LockiumDb.Entities.Devices
         [Column(TypeName = "jsonb")]
         public string? Attributes { get; set; }
         public long? DeviceId { get; set; }
+        public long? BoardId { get; set; }
 
         public Device? Device { get; set; }
+        public Board? Board { get; set; }
     }
 }

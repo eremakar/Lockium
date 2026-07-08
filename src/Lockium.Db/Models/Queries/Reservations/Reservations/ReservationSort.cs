@@ -10,6 +10,7 @@ namespace Lockium.Models.Queries.Reservations.Reservations
         /// Статус: 1 - активна, 2 - снята
         /// </summary>
         public SortOperand? State { get; set; }
+        public SortOperand? CreatedTime { get; set; }
         /// <summary>
         /// Клиент
         /// </summary>

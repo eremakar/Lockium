@@ -4,6 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- Aspire orchestration lives in Lockium.AppHost, not here -->
+    <IsAspireHost>false</IsAspireHost>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -37,6 +39,7 @@
     <ProjectReference Include="..\Libs\Data.Mapping\Data.Mapping.csproj" />
     <ProjectReference Include="..\Libs\Data.Repository\Data.Repository.csproj" />
     <ProjectReference Include="..\Lockium.Db\Lockium.Db.csproj" />
+    <ProjectReference Include="..\Lockium.Workflows\Lockium.Workflows.csproj" />
   </ItemGroup>
 
 </Project>

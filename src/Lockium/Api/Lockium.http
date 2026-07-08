@@ -1,6 +1,10 @@
-@host = http://92.38.48.35:5000
+#@host = http://92.38.48.35:5000
+@host = https://lockium.kz
+
 @deviceId = AY000001
 @channel = 1
+@boardNumber = 1
+@irId = 1
 
 ### Get JWT access token by password and user login
 # @name loginReq
@@ -19,12 +23,12 @@ Authorization: Bearer {{loginReq.response.body.token}}
 ###
 
 ### Channel close
-POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/close
+POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/close?boardNumber={{boardNumber}}
 
 ###
 
 ### Keep channel open (relay/light — not for pulse locks)
-POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/keep-open
+POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/keep-open?boardNumber={{boardNumber}}
 
 ###
 
@@ -33,7 +37,8 @@ POST {{host}}/api/lock/{{deviceId}}/channels/open-few
 Content-Type: application/json
 
 {
-  "channels": [1, 2, 3]
+  "channels": [1, 2, 3],
+  "boardNumber": 0
 }
 
 ###
@@ -41,26 +46,37 @@ Content-Type: application/json
 ### Open single channel lock (no order)
 POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/open
 Content-Type: application/json
+Authorization: Bearer {{loginReq.response.body.token}}
 
-###
+{
+  "boardNumber": "1"
+}
 
 ### Open single channel lock (with order number)
 POST {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/open
 Content-Type: application/json
 
 {
-  "orderNumber": "ORDER001"
+  "orderNumber": "ORDER001",
+  "boardNumber": 0
 }
 
 ###
 
+### Read IR (0x73): WKLY + len + board + 73 + irId + XOR
+GET {{host}}/api/lock/{{deviceId}}/ir/{{irId}}?boardNumber=1
+Authorization: Bearer {{loginReq.response.body.token}}
+
+###
+
 ### Read single channel lock status
-GET {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/status
+GET {{host}}/api/lock/{{deviceId}}/channels/{{channel}}/status?boardNumber={{boardNumber}}
 
 ###
 
 ### Read all channel lock status
-GET {{host}}/api/lock/{{deviceId}}/status/all
+GET {{host}}/api/lock/{{deviceId}}/status/all?boardNumber=1
+Authorization: Bearer {{loginReq.response.body.token}}
 
 ###
 

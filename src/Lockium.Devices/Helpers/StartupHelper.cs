@@ -17,7 +17,10 @@ namespace Lockium.Devices.Helpers
             services.AddScoped<RoleMap>();
             services.AddScoped<UserRoleMap>();
             services.AddScoped<DeviceMap>();
+            services.AddScoped<BoardMap>();
             services.AddScoped<ChannelMap>();
+            services.AddScoped<IRChannelMap>();
+            services.AddScoped<DeviceLogMap>();
             services.AddScoped<ReservationMap>();
             services.AddScoped<OrderMap>();
         }
