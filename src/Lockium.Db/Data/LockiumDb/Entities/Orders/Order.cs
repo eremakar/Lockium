@@ -42,12 +42,17 @@ namespace Lockium.Data.LockiumDb.Entities.Orders
         /// </summary>
         public long? LockerId { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public long? CellId { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public long? ChannelId { get; set; }
 
         public User? Client { get; set; }
         public Locker? Locker { get; set; }
+        public Cell? Cell { get; set; }
         public Channel? Channel { get; set; }
     }
 }

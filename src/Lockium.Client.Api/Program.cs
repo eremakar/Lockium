@@ -187,8 +187,10 @@ static IEnumerable<string> GetXmlDocumentationPaths()
 
 internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
 {
+    private const string LockersTagName = "Lockers";
+    private const string LockersDisplayName = "Lockers — шкафы (постаматы)";
     private const string DevicesTagName = "Devices";
-    private const string DevicesDisplayName = "Devices — устройства (постаматы)";
+    private const string DevicesDisplayName = "Devices — устройства (платы замков)";
     private const string ChannelsTagName = "Channels";
     private const string ChannelsDisplayName = "Channels — ячейки";
     private const string ReservationsTagName = "Reservations";
@@ -202,6 +204,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
 
     private static readonly string[] PreferredOrder =
     [
+        LockersTagName,
         DevicesTagName,
         ChannelsTagName,
         ReservationsTagName,
@@ -223,6 +226,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
                 {
                     tag.Name = tag.Name switch
                     {
+                        LockersTagName => LockersDisplayName,
                         DevicesTagName => DevicesDisplayName,
                         ChannelsTagName => ChannelsDisplayName,
                         ReservationsTagName => ReservationsDisplayName,
@@ -242,6 +246,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
         {
             tag.Name = tag.Name switch
             {
+                LockersTagName => LockersDisplayName,
                 DevicesTagName => DevicesDisplayName,
                 ChannelsTagName => ChannelsDisplayName,
                 ReservationsTagName => ReservationsDisplayName,
@@ -261,6 +266,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
             {
                 var normalizedTagName = tag.Name switch
                 {
+                    LockersDisplayName => LockersTagName,
                     DevicesDisplayName => DevicesTagName,
                     ChannelsDisplayName => ChannelsTagName,
                     ReservationsDisplayName => ReservationsTagName,
@@ -282,6 +288,7 @@ internal sealed class ScalarTagOrderDocumentFilter : IDocumentFilter
                     .SelectMany(op => op.Tags ?? Enumerable.Empty<OpenApiTag>())
                     .Select(tag => tag.Name switch
                     {
+                        LockersDisplayName => LockersTagName,
                         DevicesDisplayName => DevicesTagName,
                         ChannelsDisplayName => ChannelsTagName,
                         ReservationsDisplayName => ReservationsTagName,

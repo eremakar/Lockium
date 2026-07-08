@@ -1,5 +1,6 @@
 using Lockium.Mappings;
 using Lockium.Mappings.Devices;
+using Lockium.Mappings.Lockers;
 using Lockium.Mappings.Reservations;
 using Lockium.Mappings.Orders;
 using Lockium.Workflows;
@@ -22,6 +23,8 @@ namespace Lockium.Client.Api.Helpers
             services.AddScoped<UserRoleMap>();
             services.AddScoped<DeviceMap>();
             services.AddScoped<ChannelMap>();
+            services.AddScoped<LockerMap>();
+            services.AddScoped<CellMap>();
             services.AddScoped<ReservationMap>();
             services.AddScoped<OrderMap>();
         }

@@ -34,6 +34,7 @@ namespace Lockium.Mappings.Orders
                 result.ExpiresAt = source.ExpiresAt;
                 result.ClientId = source.ClientId;
                 result.LockerId = source.LockerId;
+                result.CellId = source.CellId;
                 result.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)
@@ -48,6 +49,7 @@ namespace Lockium.Mappings.Orders
                 }
 
                 result.Locker = mapContext.LockerMap.Map(source.Locker, options);
+                result.Cell = mapContext.CellMap.Map(source.Cell, options);
                 result.Channel = mapContext.ChannelMap.Map(source.Channel, options);
             }
             if (options.MapCollections)
@@ -77,6 +79,7 @@ namespace Lockium.Mappings.Orders
                 result.ExpiresAt = source.ExpiresAt.ToUtc();
                 result.ClientId = source.ClientId;
                 result.LockerId = source.LockerId;
+                result.CellId = source.CellId;
                 result.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)
@@ -85,6 +88,8 @@ namespace Lockium.Mappings.Orders
                     result.Client = mapContext.UserMap.ReverseMap(source.Client, options);
                 if (source.LockerId == null)
                     result.Locker = mapContext.LockerMap.ReverseMap(source.Locker, options);
+                if (source.CellId == null)
+                    result.Cell = mapContext.CellMap.ReverseMap(source.Cell, options);
                 if (source.ChannelId == null)
                     result.Channel = mapContext.ChannelMap.ReverseMap(source.Channel, options);
             }
@@ -114,6 +119,7 @@ namespace Lockium.Mappings.Orders
                 destination.ExpiresAt = source.ExpiresAt;
                 destination.ClientId = source.ClientId;
                 destination.LockerId = source.LockerId;
+                destination.CellId = source.CellId;
                 destination.ChannelId = source.ChannelId;
             }
             if (options.MapObjects)

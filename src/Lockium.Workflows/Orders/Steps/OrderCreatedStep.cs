@@ -75,6 +75,7 @@ namespace Lockium.Workflows.Orders.Steps
             stepContext.Result.Data = new OrderCreatedResult
             {
                 OrderId = data.Id,
+                CellId = data.CellId,
                 ChannelId = data.ChannelId,
                 PinCode = data.PinCode,
             };
@@ -89,6 +90,7 @@ namespace Lockium.Workflows.Orders.Steps
             {
                 ClientId = request.ClientId,
                 LockerId = request.LockerId,
+                CellId = request.CellId,
                 ChannelId = request.ChannelId,
                 PinCode = request.PinCode,
                 TrackingNumber = request.TrackingNumber,
@@ -103,23 +105,8 @@ namespace Lockium.Workflows.Orders.Steps
 
         public override async Task RunCore(Order data)
         {
-            if (!data.ChannelId.HasValue)
-            {
-                if (!data.LockerId.HasValue)
-                {
-                    stepContext.Result.Reject("Channel or Locker is required");
-                    return;
-                }
-
-                var channelId = await ResolveFreeChannelInLockerAsync(data.LockerId.Value);
-                if (channelId == null)
-                {
-                    stepContext.Result.Reject("No free channel found in locker");
-                    return;
-                }
-
-                data.ChannelId = channelId;
-            }
+            if (!await ResolveCellAndChannelAsync(data))
+                return;
 
             var channelIdValue = data.ChannelId!.Value;
 
@@ -188,12 +175,76 @@ namespace Lockium.Workflows.Orders.Steps
             db.Channels!.Update(channel);
         }
 
-        private async Task<long?> ResolveFreeChannelInLockerAsync(long lockerId)
+        private async Task<bool> ResolveCellAndChannelAsync(Order data)
+        {
+            if (data.CellId.HasValue)
+            {
+                var cell = await db.Cells!
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.Id == data.CellId.Value);
+
+                if (cell == null)
+                {
+                    stepContext.Result.Reject($"Cell {data.CellId} not found");
+                    return false;
+                }
+
+                if (!data.LockerId.HasValue)
+                    data.LockerId = cell.LockerId;
+
+                if (!data.ChannelId.HasValue)
+                {
+                    if (!cell.ChannelId.HasValue)
+                    {
+                        stepContext.Result.Reject($"Cell {data.CellId} has no channel");
+                        return false;
+                    }
+
+                    data.ChannelId = cell.ChannelId;
+                }
+
+                return true;
+            }
+
+            if (data.ChannelId.HasValue)
+            {
+                var cell = await db.Cells!
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.ChannelId == data.ChannelId.Value);
+
+                if (cell != null)
+                {
+                    data.CellId = cell.Id;
+                    data.LockerId ??= cell.LockerId;
+                }
+
+                return true;
+            }
+
+            if (!data.LockerId.HasValue)
+            {
+                stepContext.Result.Reject("Cell, Channel or Locker is required");
+                return false;
+            }
+
+            var resolved = await ResolveFreeCellInLockerAsync(data.LockerId.Value);
+            if (resolved == null)
+            {
+                stepContext.Result.Reject("No free cell found in locker");
+                return false;
+            }
+
+            data.CellId = resolved.Value.CellId;
+            data.ChannelId = resolved.Value.ChannelId;
+            return true;
+        }
+
+        private async Task<(long CellId, long ChannelId)?> ResolveFreeCellInLockerAsync(long lockerId)
         {
             var cells = await db.Cells!
                 .AsNoTracking()
                 .Where(c => c.LockerId == lockerId && c.ChannelId != null)
-                .Select(c => new { c.ChannelId })
+                .Select(c => new { c.Id, c.ChannelId })
                 .ToListAsync();
 
             foreach (var cell in cells)
@@ -210,7 +261,7 @@ namespace Lockium.Workflows.Orders.Steps
                     (o.State == (int)OrderStateIds.Created || o.State == (int)OrderStateIds.Occupied));
 
                 if (!hasActiveOrder)
-                    return channelId;
+                    return (cell.Id, channelId);
             }
 
             return null;
@@ -249,6 +300,7 @@ namespace Lockium.Workflows.Orders.Steps
     public sealed class OrderCreatedResult
     {
         public long OrderId { get; set; }
+        public long? CellId { get; set; }
         public long? ChannelId { get; set; }
         public string? PinCode { get; set; }
     }

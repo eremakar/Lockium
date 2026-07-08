@@ -35,6 +35,7 @@ public sealed class ShipmentsController(
         {
             ClientId = request.ClientId,
             LockerId = request.LockerId,
+            CellId = request.CellId,
             ChannelId = request.ChannelId,
             TrackingNumber = request.TrackingNumber,
             ExpiresAt = request.ExpiresAt ?? default,
@@ -46,7 +47,7 @@ public sealed class ShipmentsController(
             return Ok(new ShipmentCreateResponse
             {
                 OrderId = created.OrderId,
-                CellId = created.ChannelId,
+                CellId = created.CellId,
                 PinCode = created.PinCode,
             });
         }

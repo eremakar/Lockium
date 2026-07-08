@@ -41,7 +41,11 @@ namespace Lockium.Models.Dtos.Orders
         /// </summary>
         public long? LockerId { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public long? CellId { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public long? ChannelId { get; set; }
 
@@ -54,7 +58,11 @@ namespace Lockium.Models.Dtos.Orders
         /// </summary>
         public LockerDto? Locker { get; set; }
         /// <summary>
-        /// Ячейка
+        /// Ячейка шкафа
+        /// </summary>
+        public CellDto? Cell { get; set; }
+        /// <summary>
+        /// Канал платы замка
         /// </summary>
         public ChannelDto? Channel { get; set; }
     }

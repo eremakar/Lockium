@@ -7,6 +7,7 @@ public sealed class ShipmentCreateRequest
     public int? ClientId { get; set; }
     public DateTime? ExpiresAt { get; set; }
     public long? LockerId { get; set; }
+    public long? CellId { get; set; }
     public long? ChannelId { get; set; }
 }
 
